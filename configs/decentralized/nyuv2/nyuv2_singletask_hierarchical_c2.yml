@@ -1,0 +1,124 @@
+# C2: Proposal2 - Hierarchical Dynamic Clustering v2
+# Advanced: Two-stage hierarchical clustering (coarse + fine)
+#
+# Improvements from FIXED version:
+# Early stopping (patience=10, more conservative)
+# Learning rate scheduler (slower decay for stability)
+# Expected to stabilize training and reduce overfitting
+
+general:
+  title: "c2_proposal2_hierarchical_v2"
+  seed: 42
+  description: "C2 v2: Proposal2 hierarchical with early stopping and LR scheduler"
+
+data:
+  dataset: "nyuv2"
+  root_dir: "./data/nyuv2"
+  dataset_fraction: 1.0
+
+setup:
+  num_clients: 6
+  n_neighbors: 3
+  alpha: 0.0  # Pure gradient similarity
+  aggregate_heads: true  # Full aggregation (backbone + heads)
+  task_threshold: 0.1
+  aggregation_method: "weighted"
+  clustering_method: "hierarchical"
+
+  # Coarse clustering stage
+  coarse_clustering:
+    method: "spectral"
+    min_clusters: 2
+    max_clusters: 4
+    similarity_metric: "cosine"
+
+  # Fine clustering stage
+  fine_clustering:
+    method: "hierarchical"
+    distance_threshold: 0.4
+    linkage: "average"
+
+  # Advanced parameters
+  max_feature_batches: 50
+  shared_val_samples: 100
+
+  # Hard clustering: 2 clients per task
+  task_weights_per_client:
+    # C0-C1: depth only
+    - depth: 1.0
+      segmentation: 0.0
+      normal: 0.0
+
+    - depth: 1.0
+      segmentation: 0.0
+      normal: 0.0
+
+    # C2-C3: segmentation only
+    - depth: 0.0
+      segmentation: 1.0
+      normal: 0.0
+
+    - depth: 0.0
+      segmentation: 1.0
+      normal: 0.0
+
+    # C4-C5: normal only
+    - depth: 0.0
+      segmentation: 0.0
+      normal: 1.0
+
+    - depth: 0.0
+      segmentation: 0.0
+      normal: 1.0
+
+training:
+  num_rounds: 50
+  local_epochs: 5
+  batch_size: 4
+  learning_rate: 0.001
+  optimizer: "adam"
+
+  # Learning rate scheduler (NEW) - More conservative
+  lr_scheduler:
+    enabled: true
+    type: "cosine"
+    min_lr: 0.00005  # Lower minimum for stability
+    warmup_rounds: 5  # Longer warmup for complex clustering
+
+  # Early stopping (NEW) - More conservative
+  early_stopping:
+    enabled: true
+    patience: 10  # Longer patience due to complexity
+    min_delta: 0.002  # More sensitive threshold
+    restore_best_weights: true
+    verbose: true
+    mode: "min"
+
+model:
+  backbone: "resnet50"
+  pretrained: true
+  num_seg_classes: 13
+  out_size: [288, 384]
+
+output:
+  output_dir: "./results/nyuv2/c2_proposal2_hierarchical_v2"
+  save_checkpoints: true
+  checkpoint_frequency: 5
+  log_frequency: 1
+  save_metrics_every_round: true
+
+# Expected results:
+# - Training stops at Round 30-40
+# - Best loss: ~0.72-0.76 (estimated)
+# - More stable training than FIXED version
+# - Better consistency across clients
+#
+# Research value:
+# - Tests hierarchical clustering effectiveness
+# - Compares two-stage vs single-stage clustering (C1)
+# - Validates full aggregation with complex clustering
+#
+# Risk:
+# - More complexity - potential for instability
+# - Computational overhead from two-stage clustering
+# - But early stopping should mitigate overfitting risk

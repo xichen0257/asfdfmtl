@@ -1,0 +1,126 @@
+# Pascal Context B4: Multi-task Pure Gradient
+# Task Discovery Experiment: Pure gradient similarity in multi-task setting
+#
+# Same configuration as NYU V2 B4, adapted for Pascal Context
+#
+# Tasks (Maninis et al. CVPR 2019):
+#   - Semantic Segmentation (59 classes) - ORIGINAL annotations
+#   - Human Parts Segmentation (15 classes) - ORIGINAL annotations
+#   - Edge Detection - ORIGINAL annotations
+#
+# All three tasks use original annotations for highest quality.
+# Dataset: 4,998 train + 5,105 val images
+# Download: https://data.vision.ee.ethz.ch/kmaninis/share/MTL/PASCAL_MT.tgz
+#
+# Scientific Questions:
+# 1. B4 vs A2: Can automatic discovery match manual design in multi-task scenarios?
+# 2. B4 vs B1: Does multi-task help automatic discovery?
+# 3. (B4 - B1) vs (A2 - A1): Do both methods capture same multi-task benefit?
+
+general:
+  title: "pascal_b4_multitask_pure_grad"
+  seed: 42
+  description: "Pascal B4: Multi-task clients with pure gradient similarity (alpha=0.0)"
+
+data:
+  dataset: "pascal_context"
+  root_dir: "./data/pascal_context"
+  dataset_fraction: 1.0
+
+setup:
+  num_clients: 6
+  n_neighbors: 3
+  alpha: 0.0  # Pure gradient similarity (no task prior knowledge)
+  aggregate_heads: true  # Full aggregation (same as A2 for fair comparison)
+  task_threshold: 0.1
+  aggregation_method: "weighted"
+
+  # Pairwise task combinations (same as A2)
+  # Each client handles 2 tasks with 0.7/0.3 split (all original annotations)
+  task_weights_per_client:
+    # C0: segmentation-dominant + human_parts
+    - segmentation: 0.7
+      human_parts: 0.3
+      edge: 0.0
+
+    # C1: segmentation-dominant + edge
+    - segmentation: 0.7
+      human_parts: 0.0
+      edge: 0.3
+
+    # C2: human_parts-dominant + segmentation
+    - segmentation: 0.3
+      human_parts: 0.7
+      edge: 0.0
+
+    # C3: human_parts-dominant + edge
+    - segmentation: 0.0
+      human_parts: 0.7
+      edge: 0.3
+
+    # C4: edge-dominant + segmentation
+    - segmentation: 0.3
+      human_parts: 0.0
+      edge: 0.7
+
+    # C5: edge-dominant + human_parts
+    - segmentation: 0.0
+      human_parts: 0.3
+      edge: 0.7
+
+training:
+  num_rounds: 50
+  local_epochs: 5
+  batch_size: 8
+  learning_rate: 0.001
+  optimizer: "adam"
+
+  # Learning rate scheduler
+  lr_scheduler:
+    enabled: true
+    type: "cosine"
+    min_lr: 0.0001
+    warmup_rounds: 3
+
+  # Early stopping - balanced settings
+  early_stopping:
+    enabled: true
+    patience: 10  # Same as A2 (multi-task can be noisy)
+    min_delta: 0.002  # Same as A2
+    restore_best_weights: true
+    verbose: true
+    mode: "min"
+
+model:
+  backbone: "resnet50"
+  pretrained: true
+  num_seg_classes: 59  # Semantic segmentation: 59 classes
+  num_human_parts_classes: 6  # 6 body parts (head, torso, larm, rarm, lleg, rleg)
+  # Edge detection: binary output (1 channel)
+  out_size: [288, 384]
+
+output:
+  output_dir: "./results/pascal_context/b4_multitask_pure_grad"
+  save_checkpoints: true
+  checkpoint_frequency: 5
+  log_frequency: 1
+  save_metrics_every_round: true
+
+# Expected results (hypotheses):
+#
+# Scenario 1 (Optimistic): B4 ~= A2
+#   - Automatic discovery captures task relationships as well as manual design
+#   - This would be the strongest result!
+#
+# Scenario 2 (Conservative): B4 ~= B1
+#   - Multi-task benefit canceled out by lack of task prior (alpha=0.0)
+#   - Still shows automatic discovery works, but multi-task doesn't help
+#
+# Scenario 3 (Middle): B4 between A2 and B1
+#   - Partial multi-task benefit captured
+#   - Shows promise but room for improvement
+#
+# Key comparisons to analyze:
+# 1. B4 vs A2: gap = automatic discovery penalty in multi-task
+# 2. B4 vs B1: delta = multi-task benefit under automatic discovery
+# 3. (A2-A1) vs (B4-B1): consistency of multi-task benefit

@@ -1,0 +1,48 @@
+general:
+  title: CIFAR10_Hybrid_100_Switch8
+  dataset: cifar10
+  # Hybrid strategy: FedAvg (rounds 1-7) - HCA (rounds 8-10)
+  # Later switch to allow sufficient model divergence
+  intra_communication: None
+  cross_communication: Hybrid_Switch8
+  rounds: 30
+  result_folder: results
+  result_sub_folder: decentralized_experiments
+  seed: 42
+  backbone_layers: minus1
+
+setup:
+  dataset_fraction: 1.0
+  hca_alpha: 0.4
+  n_neighbors: 3
+
+  similarity_method: gradient
+
+  # Hybrid strategy: FedAvg - HCA
+  aggregation_method: hybrid
+  aggregation_switch_round: 8  # Switch to HCA at round 8 (later)
+
+  clients:
+    - AN_Cifar10_C0
+    - AN_Cifar10_C1
+    - AN_Cifar10_C2
+    - OB_Cifar10_C0
+    - OB_Cifar10_C1
+    - OB_Cifar10_C2
+
+  local_epochs: 3
+  learning_rate: 0.01  # Learning rate for CIFAR-10
+
+  task_configs:
+    Animals:
+      num_classes: 6
+      client_ids:
+        - AN_Cifar10_C0
+        - AN_Cifar10_C1
+        - AN_Cifar10_C2
+    Objects:
+      num_classes: 4
+      client_ids:
+        - OB_Cifar10_C0
+        - OB_Cifar10_C1
+        - OB_Cifar10_C2

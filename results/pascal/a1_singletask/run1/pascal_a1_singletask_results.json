@@ -1,0 +1,1675 @@
+{
+  "config": {
+    "data": {
+      "dataset": "pascal_context",
+      "dataset_fraction": 1.0,
+      "root_dir": "./data/pascal_context"
+    },
+    "general": {
+      "description": "Pascal A1: SingleTask with early stopping and LR scheduler",
+      "seed": 42,
+      "title": "pascal_a1_singletask"
+    },
+    "model": {
+      "backbone": "resnet50",
+      "num_human_parts_classes": 6,
+      "num_seg_classes": 59,
+      "out_size": [
+        288,
+        384
+      ],
+      "pretrained": true
+    },
+    "output": {
+      "checkpoint_frequency": 5,
+      "log_frequency": 1,
+      "output_dir": "results/pascal_context/full/run1/pascal_a1_singletask",
+      "save_checkpoints": true,
+      "save_metrics_every_round": true
+    },
+    "setup": {
+      "aggregate_heads": true,
+      "aggregation_method": "weighted",
+      "alpha": 0.5,
+      "n_neighbors": 3,
+      "num_clients": 6,
+      "task_threshold": 0.1,
+      "task_weights_per_client": [
+        {
+          "edge": 0.0,
+          "human_parts": 0.0,
+          "segmentation": 1.0
+        },
+        {
+          "edge": 0.0,
+          "human_parts": 0.0,
+          "segmentation": 1.0
+        },
+        {
+          "edge": 0.0,
+          "human_parts": 1.0,
+          "segmentation": 0.0
+        },
+        {
+          "edge": 0.0,
+          "human_parts": 1.0,
+          "segmentation": 0.0
+        },
+        {
+          "edge": 1.0,
+          "human_parts": 0.0,
+          "segmentation": 0.0
+        },
+        {
+          "edge": 1.0,
+          "human_parts": 0.0,
+          "segmentation": 0.0
+        }
+      ]
+    },
+    "training": {
+      "batch_size": 8,
+      "early_stopping": {
+        "enabled": true,
+        "min_delta": 0.003,
+        "mode": "min",
+        "patience": 8,
+        "restore_best_weights": true,
+        "verbose": true
+      },
+      "learning_rate": 0.001,
+      "local_epochs": 5,
+      "lr_scheduler": {
+        "enabled": true,
+        "min_lr": 0.0001,
+        "type": "cosine",
+        "warmup_rounds": 3
+      },
+      "num_rounds": 50,
+      "optimizer": "adam"
+    }
+  },
+  "results": [
+    {
+      "round": 1,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 2.5773145719008013,
+            "segmentation": 2.5773145719008013,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.3329677419228987,
+            "segmentation": 1.3329677419228987,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0133455016396262,
+            "segmentation": 0.0,
+            "human_parts": 1.0133455016396262,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0461465282873674,
+            "segmentation": 0.0,
+            "human_parts": 1.0461465282873674,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        }
+      ],
+      "avg_total_loss": 1.2260114514466487,
+      "avg_edge_loss": 0.2310490608215332,
+      "avg_human_parts_loss": 0.34324867165449896,
+      "avg_segmentation_loss": 0.6517137189706167
+    },
+    {
+      "round": 2,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.989486965266141,
+            "segmentation": 1.989486965266141,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.60729858008298,
+            "segmentation": 1.60729858008298,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0210221789099954,
+            "segmentation": 0.0,
+            "human_parts": 1.0210221789099954,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0588955174792896,
+            "segmentation": 0.0,
+            "human_parts": 1.0588955174792896,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931473721157421,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931473721157421
+          }
+        }
+      ],
+      "avg_total_loss": 1.177166299386458,
+      "avg_edge_loss": 0.23104909243005692,
+      "avg_human_parts_loss": 0.34665294939821417,
+      "avg_segmentation_loss": 0.5994642575581869
+    },
+    {
+      "round": 3,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.6766895922747524,
+            "segmentation": 1.6766895922747524,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.6361562555486506,
+            "segmentation": 1.6361562555486506,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.9772811857136813,
+            "segmentation": 0.0,
+            "human_parts": 0.9772811857136813,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0629607439041138,
+            "segmentation": 0.0,
+            "human_parts": 1.0629607439041138,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.2734310193495317,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 1.2734310193495317
+          }
+        }
+      ],
+      "avg_total_loss": 1.2199443298758883,
+      "avg_edge_loss": 0.32776303363568854,
+      "avg_human_parts_loss": 0.3400403216029659,
+      "avg_segmentation_loss": 0.5521409746372338
+    },
+    {
+      "round": 4,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 2.1236431381919165,
+            "segmentation": 2.1236431381919165,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.8675705086101184,
+            "segmentation": 1.8675705086101184,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.9815906448797747,
+            "segmentation": 0.0,
+            "human_parts": 0.9815906448797747,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.066590964794159,
+            "segmentation": 0.0,
+            "human_parts": 1.066590964794159,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 95381063493.81818,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 95381063493.81818
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.7300623817877336,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.7300623817877336
+          }
+        }
+      ],
+      "avg_total_loss": 15896843916.764605,
+      "avg_edge_loss": 15896843915.75804,
+      "avg_human_parts_loss": 0.34136360161232226,
+      "avg_segmentation_loss": 0.6652022744670059
+    },
+    {
+      "round": 5,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.7055368206717751,
+            "segmentation": 1.7055368206717751,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.608116475018588,
+            "segmentation": 1.608116475018588,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.9913807132027366,
+            "segmentation": 0.0,
+            "human_parts": 0.9913807132027366,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0567683902653782,
+            "segmentation": 0.0,
+            "human_parts": 1.0567683902653782,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 8.012445477716123e+18,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 8.012445477716123e+18
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1581411532800.0,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 1581411532800.0
+          }
+        }
+      ],
+      "avg_total_loss": 1.3354078431879427e+18,
+      "avg_edge_loss": 1.3354078431879427e+18,
+      "avg_human_parts_loss": 0.3413581839113524,
+      "avg_segmentation_loss": 0.5522755492817272
+    },
+    {
+      "round": 6,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 2.1062842282381924,
+            "segmentation": 2.1062842282381924,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.6255501833829014,
+            "segmentation": 1.6255501833829014,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.9808232946829363,
+            "segmentation": 0.0,
+            "human_parts": 0.9808232946829363,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.086649705063213,
+            "segmentation": 0.0,
+            "human_parts": 1.086649705063213,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        }
+      ],
+      "avg_total_loss": 1.197600296049407,
+      "avg_edge_loss": 0.2310490608215332,
+      "avg_human_parts_loss": 0.3445788332910249,
+      "avg_segmentation_loss": 0.621972401936849
+    },
+    {
+      "round": 7,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.8568266955288975,
+            "segmentation": 1.8568266955288975,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.6575371893969448,
+            "segmentation": 1.6575371893969448,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0379955497655002,
+            "segmentation": 0.0,
+            "human_parts": 1.0379955497655002,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0709402073513379,
+            "segmentation": 0.0,
+            "human_parts": 1.0709402073513379,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.9754345845589545e+26,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 1.9754345845589545e+26
+          }
+        }
+      ],
+      "avg_total_loss": 3.292390974264924e+25,
+      "avg_edge_loss": 3.292390974264924e+25,
+      "avg_human_parts_loss": 0.3514892928528064,
+      "avg_segmentation_loss": 0.585727314154307
+    },
+    {
+      "round": 8,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.7239715402776545,
+            "segmentation": 1.7239715402776545,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.5493395111777566,
+            "segmentation": 1.5493395111777566,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.996602551503615,
+            "segmentation": 0.0,
+            "human_parts": 0.996602551503615,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0044858834960244,
+            "segmentation": 0.0,
+            "human_parts": 1.0044858834960244,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        }
+      ],
+      "avg_total_loss": 1.110115641897375,
+      "avg_edge_loss": 0.2310490608215332,
+      "avg_human_parts_loss": 0.3335147391666065,
+      "avg_segmentation_loss": 0.5455518419092352
+    },
+    {
+      "round": 9,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.5211288712241433,
+            "segmentation": 1.5211288712241433,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.5189337080175227,
+            "segmentation": 1.5189337080175227,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0270838954231956,
+            "segmentation": 0.0,
+            "human_parts": 1.0270838954231956,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.1052407784895464,
+            "segmentation": 0.0,
+            "human_parts": 1.1052407784895464,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        }
+      ],
+      "avg_total_loss": 1.0931136030139346,
+      "avg_edge_loss": 0.2310490608215332,
+      "avg_human_parts_loss": 0.3553874456521237,
+      "avg_segmentation_loss": 0.5066770965402777
+    },
+    {
+      "round": 10,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.7588146924972534,
+            "segmentation": 1.7588146924972534,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.8482126756147905,
+            "segmentation": 1.8482126756147905,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.947206437587738,
+            "segmentation": 0.0,
+            "human_parts": 0.947206437587738,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0188210227272727,
+            "segmentation": 0.0,
+            "human_parts": 1.0188210227272727,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        }
+      ],
+      "avg_total_loss": 1.1598915322260424,
+      "avg_edge_loss": 0.2310490608215332,
+      "avg_human_parts_loss": 0.32767124338583514,
+      "avg_segmentation_loss": 0.601171228018674
+    },
+    {
+      "round": 11,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.7629881447011775,
+            "segmentation": 1.7629881447011775,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.4344696023247459,
+            "segmentation": 1.4344696023247459,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0172449350357056,
+            "segmentation": 0.0,
+            "human_parts": 1.0172449350357056,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0525896495038813,
+            "segmentation": 0.0,
+            "human_parts": 1.0525896495038813,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 83990987.27272727,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 83990987.27272727
+          }
+        }
+      ],
+      "avg_total_loss": 13998498.872194463,
+      "avg_edge_loss": 13998497.994312407,
+      "avg_human_parts_loss": 0.3449724307565978,
+      "avg_segmentation_loss": 0.5329096245043206
+    },
+    {
+      "round": 12,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.9307156259363347,
+            "segmentation": 1.9307156259363347,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.5417452292008833,
+            "segmentation": 1.5417452292008833,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0509322610768406,
+            "segmentation": 0.0,
+            "human_parts": 1.0509322610768406,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0653030547228726,
+            "segmentation": 0.0,
+            "human_parts": 1.0653030547228726,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        }
+      ],
+      "avg_total_loss": 1.162498422644355,
+      "avg_edge_loss": 0.2310490608215332,
+      "avg_human_parts_loss": 0.35270588596661884,
+      "avg_segmentation_loss": 0.578743475856203
+    },
+    {
+      "round": 13,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.7009590430693193,
+            "segmentation": 1.7009590430693193,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.6116039861332287,
+            "segmentation": 1.6116039861332287,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.4733741879463196,
+            "segmentation": 0.0,
+            "human_parts": 1.4733741879463196,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0960492058233782,
+            "segmentation": 0.0,
+            "human_parts": 1.0960492058233782,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        }
+      ],
+      "avg_total_loss": 1.2113801313169075,
+      "avg_edge_loss": 0.2310490608215332,
+      "avg_human_parts_loss": 0.42823723229494964,
+      "avg_segmentation_loss": 0.5520938382004247
+    },
+    {
+      "round": 14,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.6336652907458218,
+            "segmentation": 1.6336652907458218,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.5502677288922397,
+            "segmentation": 1.5502677288922397,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0637427243319424,
+            "segmentation": 0.0,
+            "human_parts": 1.0637427243319424,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0566359216516668,
+            "segmentation": 0.0,
+            "human_parts": 1.0566359216516668,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        }
+      ],
+      "avg_total_loss": 1.1151010050918118,
+      "avg_edge_loss": 0.2310490608215332,
+      "avg_human_parts_loss": 0.35339644099726825,
+      "avg_segmentation_loss": 0.5306555032730103
+    },
+    {
+      "round": 15,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.8066566640680486,
+            "segmentation": 1.8066566640680486,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 2.334151788191362,
+            "segmentation": 2.334151788191362,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0064088973132046,
+            "segmentation": 0.0,
+            "human_parts": 1.0064088973132046,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.2175128134814175,
+            "segmentation": 0.0,
+            "human_parts": 1.2175128134814175,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        }
+      ],
+      "avg_total_loss": 1.2918374213305386,
+      "avg_edge_loss": 0.2310490608215332,
+      "avg_human_parts_loss": 0.37065361846577033,
+      "avg_segmentation_loss": 0.690134742043235
+    },
+    {
+      "round": 16,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.6886411255056208,
+            "segmentation": 1.6886411255056208,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 1.4962856010957197,
+            "segmentation": 1.4962856010957197,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.131596863269806,
+            "segmentation": 0.0,
+            "human_parts": 1.131596863269806,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.2882323319261724,
+            "segmentation": 0.0,
+            "human_parts": 1.2882323319261724,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        }
+      ],
+      "avg_total_loss": 1.1651750477877532,
+      "avg_edge_loss": 0.2310490608215332,
+      "avg_human_parts_loss": 0.4033048658659964,
+      "avg_segmentation_loss": 0.5308211211002235
+    },
+    {
+      "round": 17,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 2.126793156970631,
+            "segmentation": 2.126793156970631,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 0.0,
+            "segmentation": 1.0
+          },
+          "eval_results": {
+            "total_loss": 2.2513327490199697,
+            "segmentation": 2.2513327490199697,
+            "human_parts": 0.0,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0613038756630637,
+            "segmentation": 0.0,
+            "human_parts": 1.0613038756630637,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "edge": 0.0,
+            "human_parts": 1.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.2916932051832026,
+            "segmentation": 0.0,
+            "human_parts": 1.2916932051832026,
+            "edge": 0.0
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "edge": 1.0,
+            "human_parts": 0.0,
+            "segmentation": 0.0
+          },
+          "eval_results": {
+            "total_loss": 0.6931471824645996,
+            "segmentation": 0.0,
+            "human_parts": 0.0,
+            "edge": 0.6931471824645996
+          }
+        }
+      ],
+      "avg_total_loss": 1.3529028919610109,
+      "avg_edge_loss": 0.2310490608215332,
+      "avg_human_parts_loss": 0.3921661801410444,
+      "avg_segmentation_loss": 0.7296876509984335
+    }
+  ]
+}

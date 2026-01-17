@@ -1,0 +1,109 @@
+# B3: Pure Gradient + Full + HCA v2
+# Task Discovery Experiment 3: Pure gradient with full aggregation and HCA
+#
+# NEW: Full aggregation (backbone + heads) with HCA
+# Ultimate test: Can pure gradient + HCA + Full match task overlap baseline (A1)?
+#
+# Expected:
+# - Potentially best of Task Discovery experiments
+# - Competitive with A1 (task overlap baseline)
+# - End-to-end adaptation may improve overall performance
+
+general:
+  title: "b3_pure_grad_full_hca_v2"
+  seed: 42
+  description: "B3 v2: Task discovery with pure gradient + full + HCA"
+
+data:
+  dataset: "nyuv2"
+  root_dir: "./data/nyuv2"
+  dataset_fraction: 1.0
+
+setup:
+  num_clients: 6
+  n_neighbors: 3
+  alpha: 0.0  # Pure gradient similarity (no task overlap)
+  aggregate_heads: true  # NEW: Full aggregation (backbone + heads)
+  task_threshold: 0.1
+  aggregation_method: "hca"  # HCA aggregation
+  hca_alpha: 0.7  # HCA conflict-averse hyperparameter
+
+  # Hard clustering: 2 clients per task (same as B1, B2)
+  task_weights_per_client:
+    # C0-C1: depth only
+    - depth: 1.0
+      segmentation: 0.0
+      normal: 0.0
+
+    - depth: 1.0
+      segmentation: 0.0
+      normal: 0.0
+
+    # C2-C3: segmentation only
+    - depth: 0.0
+      segmentation: 1.0
+      normal: 0.0
+
+    - depth: 0.0
+      segmentation: 1.0
+      normal: 0.0
+
+    # C4-C5: normal only
+    - depth: 0.0
+      segmentation: 0.0
+      normal: 1.0
+
+    - depth: 0.0
+      segmentation: 0.0
+      normal: 1.0
+
+training:
+  num_rounds: 50
+  local_epochs: 5
+  batch_size: 4
+  learning_rate: 0.001
+  optimizer: "adam"
+
+  # Learning rate scheduler
+  lr_scheduler:
+    enabled: true
+    type: "cosine"
+    min_lr: 0.0001
+    warmup_rounds: 3
+
+  # Early stopping
+  early_stopping:
+    enabled: true
+    patience: 8
+    min_delta: 0.003
+    restore_best_weights: true
+    verbose: true
+    mode: "min"
+
+model:
+  backbone: "resnet50"
+  pretrained: true
+  num_seg_classes: 13
+  out_size: [288, 384]
+
+output:
+  output_dir: "./results/nyuv2/b3_pure_grad_full_hca_v2"
+  save_checkpoints: true
+  checkpoint_frequency: 5
+  log_frequency: 1
+  save_metrics_every_round: true
+
+# Expected results:
+# - Training stops at Round 25-30
+# - Best loss: ~0.73-0.76
+# - Comparison to B2: Similar or 1-2% better
+# - Comparison to A1: Competitive! (gap < 1%)
+#
+# Research value:
+# - Tests if head aggregation enhances HCA
+# - Ultimate test: Can pure gradient + HCA + Full match task overlap?
+# - If B3 ~= A1, proves automatic task discovery works! 
+#
+# Risk:
+# - Cross-task head aggregation could hurt task-specific performance
+# - But HCA may mitigate conflicts between different task heads

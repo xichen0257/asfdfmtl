@@ -1,0 +1,1882 @@
+{
+  "config": {
+    "general": {
+      "title": "CIFAR10_Hybrid_100_Delayed",
+      "dataset": "cifar10",
+      "intra_communication": "None",
+      "cross_communication": "Delayed_HCA",
+      "rounds": 30,
+      "result_folder": "results/cifar10_30rounds_lr0.01",
+      "result_sub_folder": "hybrid_delayed",
+      "seed": 42,
+      "backbone_layers": "minus1"
+    },
+    "setup": {
+      "dataset_fraction": 1.0,
+      "hca_alpha": 0.4,
+      "n_neighbors": 3,
+      "similarity_method": "gradient",
+      "aggregation_method": "hca",
+      "aggregation_start_round": 4,
+      "clients": [
+        "AN_Cifar10_C0",
+        "AN_Cifar10_C1",
+        "AN_Cifar10_C2",
+        "OB_Cifar10_C0",
+        "OB_Cifar10_C1",
+        "OB_Cifar10_C2"
+      ],
+      "local_epochs": 3,
+      "task_configs": {
+        "Animals": {
+          "num_classes": 6,
+          "client_ids": [
+            "AN_Cifar10_C0",
+            "AN_Cifar10_C1",
+            "AN_Cifar10_C2"
+          ]
+        },
+        "Objects": {
+          "num_classes": 4,
+          "client_ids": [
+            "OB_Cifar10_C0",
+            "OB_Cifar10_C1",
+            "OB_Cifar10_C2"
+          ]
+        }
+      }
+    }
+  },
+  "timestamp": "2026-01-16T20:10:52.585036",
+  "results_by_round": [
+    {
+      "round": 0,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 2.484189068476359,
+          "test_f1": 0.0476190485060215,
+          "test_precision": 0.02777777798473835,
+          "test_recall": 0.1666666716337204,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.9484832779566448,
+          "test_f1": 0.0476190485060215,
+          "test_precision": 0.02777777798473835,
+          "test_recall": 0.1666666716337204,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 2.0716956720352173,
+          "test_f1": 0.0476190485060215,
+          "test_precision": 0.02777777798473835,
+          "test_recall": 0.1666666716337204,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 1.943008716583252,
+          "test_f1": 0.10000000149011612,
+          "test_precision": 0.0625,
+          "test_recall": 0.25,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 1.6765771379470826,
+          "test_f1": 0.09997998178005219,
+          "test_precision": 0.0625,
+          "test_recall": 0.24975000321865082,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 1.514850417137146,
+          "test_f1": 0.14217829704284668,
+          "test_precision": 0.1279011368751526,
+          "test_recall": 0.25824999809265137,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 2.16812267282274,
+        "test_acc": 0.0476190485060215
+      },
+      "objects_avg": {
+        "test_loss": 1.7114787572224934,
+        "test_acc": 0.11405276010433833
+      },
+      "overall_avg": {
+        "test_loss": 1.9398007150226169,
+        "test_acc": 0.08083590430517991
+      }
+    },
+    {
+      "round": 1,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.4565747973124186,
+          "test_f1": 0.4002421200275421,
+          "test_precision": 0.42815855145454407,
+          "test_recall": 0.4141666889190674,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.4731354659398397,
+          "test_f1": 0.4027661979198456,
+          "test_precision": 0.4467041790485382,
+          "test_recall": 0.4150000214576721,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.466282325744629,
+          "test_f1": 0.4048888683319092,
+          "test_precision": 0.4749186038970947,
+          "test_recall": 0.4051666855812073,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 1.1304960336685181,
+          "test_f1": 0.4525079131126404,
+          "test_precision": 0.5664831399917603,
+          "test_recall": 0.49024999141693115,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 1.063833423614502,
+          "test_f1": 0.5282191634178162,
+          "test_precision": 0.5730531215667725,
+          "test_recall": 0.5390000343322754,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 1.1309775614738464,
+          "test_f1": 0.5141282081604004,
+          "test_precision": 0.5826030373573303,
+          "test_recall": 0.5232499837875366,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.4653308629989625,
+        "test_acc": 0.4026323954264323
+      },
+      "objects_avg": {
+        "test_loss": 1.1084356729189555,
+        "test_acc": 0.49828509489695233
+      },
+      "overall_avg": {
+        "test_loss": 1.2868832679589592,
+        "test_acc": 0.4504587451616923
+      }
+    },
+    {
+      "round": 2,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.3432513825098673,
+          "test_f1": 0.4592372477054596,
+          "test_precision": 0.505627453327179,
+          "test_recall": 0.46700000762939453,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.3330408887863159,
+          "test_f1": 0.48015305399894714,
+          "test_precision": 0.5081514716148376,
+          "test_recall": 0.4865000247955322,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.2476261548995973,
+          "test_f1": 0.5084025263786316,
+          "test_precision": 0.539385199546814,
+          "test_recall": 0.5110000371932983,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.784880732536316,
+          "test_f1": 0.6930859088897705,
+          "test_precision": 0.6974610090255737,
+          "test_recall": 0.6935000419616699,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.8160514073371887,
+          "test_f1": 0.6602562069892883,
+          "test_precision": 0.6660993099212646,
+          "test_recall": 0.6620000004768372,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.7918043432235717,
+          "test_f1": 0.6844530701637268,
+          "test_precision": 0.6872514486312866,
+          "test_recall": 0.684499979019165,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.307972808731927,
+        "test_acc": 0.48259760936101276
+      },
+      "objects_avg": {
+        "test_loss": 0.7975788276990254,
+        "test_acc": 0.6792650620142618
+      },
+      "overall_avg": {
+        "test_loss": 1.0527758182154763,
+        "test_acc": 0.5809313356876373
+      }
+    },
+    {
+      "round": 3,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.1934176670710246,
+          "test_f1": 0.5438805818557739,
+          "test_precision": 0.5655282139778137,
+          "test_recall": 0.5420000553131104,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.2578639268875123,
+          "test_f1": 0.4974396526813507,
+          "test_precision": 0.5413515567779541,
+          "test_recall": 0.5149999856948853,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.1863223969141643,
+          "test_f1": 0.5352736115455627,
+          "test_precision": 0.5577536821365356,
+          "test_recall": 0.5426666736602783,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6717222514152527,
+          "test_f1": 0.7379001379013062,
+          "test_precision": 0.738845705986023,
+          "test_recall": 0.7377499938011169,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.7257929911613464,
+          "test_f1": 0.7052924633026123,
+          "test_precision": 0.7071489691734314,
+          "test_recall": 0.7055000066757202,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.6748076105117797,
+          "test_f1": 0.7283587455749512,
+          "test_precision": 0.733643651008606,
+          "test_recall": 0.7292500138282776,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.2125346636242338,
+        "test_acc": 0.5255312820275625
+      },
+      "objects_avg": {
+        "test_loss": 0.690774284362793,
+        "test_acc": 0.7238504489262899
+      },
+      "overall_avg": {
+        "test_loss": 0.9516544739935133,
+        "test_acc": 0.6246908654769262
+      }
+    },
+    {
+      "round": 4,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.2192204599380494,
+          "test_f1": 0.5414214134216309,
+          "test_precision": 0.5713051557540894,
+          "test_recall": 0.5406666398048401,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.3227255493799845,
+          "test_f1": 0.46619710326194763,
+          "test_precision": 0.5428481101989746,
+          "test_recall": 0.4938333332538605,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.1694312041600545,
+          "test_f1": 0.5467435717582703,
+          "test_precision": 0.5637618899345398,
+          "test_recall": 0.5533333420753479,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6876764149665833,
+          "test_f1": 0.7322644591331482,
+          "test_precision": 0.7382869124412537,
+          "test_recall": 0.7330000400543213,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.7362786345481872,
+          "test_f1": 0.7091464996337891,
+          "test_precision": 0.7106707096099854,
+          "test_recall": 0.7097499966621399,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.6935299105644226,
+          "test_f1": 0.7266491651535034,
+          "test_precision": 0.7359035015106201,
+          "test_recall": 0.7282500267028809,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.2371257378260294,
+        "test_acc": 0.518120696147283
+      },
+      "objects_avg": {
+        "test_loss": 0.7058283200263977,
+        "test_acc": 0.7226867079734802
+      },
+      "overall_avg": {
+        "test_loss": 0.9714770289262136,
+        "test_acc": 0.6204037020603815
+      }
+    },
+    {
+      "round": 5,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.2476697247823079,
+          "test_f1": 0.5442095994949341,
+          "test_precision": 0.582237958908081,
+          "test_recall": 0.5378333330154419,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.2227635777791341,
+          "test_f1": 0.5219681262969971,
+          "test_precision": 0.5517621040344238,
+          "test_recall": 0.5371666550636292,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.1193939135869344,
+          "test_f1": 0.5773080587387085,
+          "test_precision": 0.5841956734657288,
+          "test_recall": 0.5758333802223206,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6874275488853454,
+          "test_f1": 0.7365773916244507,
+          "test_precision": 0.7422420382499695,
+          "test_recall": 0.7369999885559082,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.716834662437439,
+          "test_f1": 0.7174606323242188,
+          "test_precision": 0.7209808826446533,
+          "test_recall": 0.718250036239624,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.6841462507247925,
+          "test_f1": 0.7334204912185669,
+          "test_precision": 0.7380747199058533,
+          "test_recall": 0.7339999675750732,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.1966090720494587,
+        "test_acc": 0.5478285948435465
+      },
+      "objects_avg": {
+        "test_loss": 0.6961361540158589,
+        "test_acc": 0.7291528383890787
+      },
+      "overall_avg": {
+        "test_loss": 0.9463726130326587,
+        "test_acc": 0.6384907166163126
+      }
+    },
+    {
+      "round": 6,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.2539779307047525,
+          "test_f1": 0.5299753546714783,
+          "test_precision": 0.5759225487709045,
+          "test_recall": 0.5254999995231628,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.2872354628245035,
+          "test_f1": 0.500268816947937,
+          "test_precision": 0.5541829466819763,
+          "test_recall": 0.5116666555404663,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.1206395292282105,
+          "test_f1": 0.5799667835235596,
+          "test_precision": 0.5904209613800049,
+          "test_recall": 0.577833354473114,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6940420770645142,
+          "test_f1": 0.7403970956802368,
+          "test_precision": 0.7501883506774902,
+          "test_recall": 0.7400000095367432,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.7168666615486144,
+          "test_f1": 0.717216432094574,
+          "test_precision": 0.7207859754562378,
+          "test_recall": 0.7170000076293945,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.6436882410049438,
+          "test_f1": 0.7478498220443726,
+          "test_precision": 0.7491048574447632,
+          "test_recall": 0.7482500076293945,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.2206176409191556,
+        "test_acc": 0.5367369850476583
+      },
+      "objects_avg": {
+        "test_loss": 0.6848656598726907,
+        "test_acc": 0.7351544499397278
+      },
+      "overall_avg": {
+        "test_loss": 0.9527416503959233,
+        "test_acc": 0.635945717493693
+      }
+    },
+    {
+      "round": 7,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.212151694615682,
+          "test_f1": 0.5488926768302917,
+          "test_precision": 0.5809606313705444,
+          "test_recall": 0.5444999933242798,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.2458023424148559,
+          "test_f1": 0.5270814299583435,
+          "test_precision": 0.5633194446563721,
+          "test_recall": 0.5361666679382324,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.1569627628326415,
+          "test_f1": 0.5600329041481018,
+          "test_precision": 0.5849137306213379,
+          "test_recall": 0.562999963760376,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6686966214179992,
+          "test_f1": 0.75050950050354,
+          "test_precision": 0.75323885679245,
+          "test_recall": 0.75,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.7037955884933471,
+          "test_f1": 0.7231172323226929,
+          "test_precision": 0.7270959615707397,
+          "test_recall": 0.7232500314712524,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.6367024083137512,
+          "test_f1": 0.7527933716773987,
+          "test_precision": 0.7531367540359497,
+          "test_recall": 0.7529999613761902,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.2049722666210598,
+        "test_acc": 0.5453356703122457
+      },
+      "objects_avg": {
+        "test_loss": 0.6697315394083659,
+        "test_acc": 0.7421400348345438
+      },
+      "overall_avg": {
+        "test_loss": 0.9373519030147128,
+        "test_acc": 0.6437378525733948
+      }
+    },
+    {
+      "round": 8,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.2146801913579306,
+          "test_f1": 0.5439507961273193,
+          "test_precision": 0.5819025635719299,
+          "test_recall": 0.5464999675750732,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.2429026225407918,
+          "test_f1": 0.5251783728599548,
+          "test_precision": 0.5607666969299316,
+          "test_recall": 0.5360000133514404,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.1395345951716105,
+          "test_f1": 0.5657702684402466,
+          "test_precision": 0.5791881084442139,
+          "test_recall": 0.5698333382606506,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6831859188079834,
+          "test_f1": 0.7399019002914429,
+          "test_precision": 0.7525558471679688,
+          "test_recall": 0.7407499551773071,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.6942508759498596,
+          "test_f1": 0.7290655970573425,
+          "test_precision": 0.729283332824707,
+          "test_recall": 0.7289999723434448,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.6383031048774719,
+          "test_f1": 0.7484272718429565,
+          "test_precision": 0.7518660426139832,
+          "test_recall": 0.7482500076293945,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.1990391363567776,
+        "test_acc": 0.544966479142507
+      },
+      "objects_avg": {
+        "test_loss": 0.6719132998784382,
+        "test_acc": 0.7391315897305807
+      },
+      "overall_avg": {
+        "test_loss": 0.935476218117608,
+        "test_acc": 0.6420490344365438
+      }
+    },
+    {
+      "round": 9,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.2064373699824016,
+          "test_f1": 0.547927737236023,
+          "test_precision": 0.5890896916389465,
+          "test_recall": 0.5434999465942383,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.2074066146214804,
+          "test_f1": 0.5456422567367554,
+          "test_precision": 0.5825140476226807,
+          "test_recall": 0.5508333444595337,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.1035302975972494,
+          "test_f1": 0.583732545375824,
+          "test_precision": 0.5926462411880493,
+          "test_recall": 0.5838333368301392,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6620194029808044,
+          "test_f1": 0.7501057982444763,
+          "test_precision": 0.7584783434867859,
+          "test_recall": 0.749250054359436,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.6944855852127075,
+          "test_f1": 0.7317079901695251,
+          "test_precision": 0.7358090877532959,
+          "test_recall": 0.7319999933242798,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.6631895203590393,
+          "test_f1": 0.7412530779838562,
+          "test_precision": 0.7538782954216003,
+          "test_recall": 0.7430000305175781,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.1724580940670437,
+        "test_acc": 0.5591008464495341
+      },
+      "objects_avg": {
+        "test_loss": 0.6732315028508505,
+        "test_acc": 0.7410222887992859
+      },
+      "overall_avg": {
+        "test_loss": 0.9228447984589471,
+        "test_acc": 0.65006156762441
+      }
+    },
+    {
+      "round": 10,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.1661551926930744,
+          "test_f1": 0.5618537068367004,
+          "test_precision": 0.591788649559021,
+          "test_recall": 0.5534999966621399,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.23318186155955,
+          "test_f1": 0.5340245366096497,
+          "test_precision": 0.5845942497253418,
+          "test_recall": 0.543999969959259,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.1630021594365438,
+          "test_f1": 0.551015317440033,
+          "test_precision": 0.577560305595398,
+          "test_recall": 0.5648333430290222,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6488143544197083,
+          "test_f1": 0.7624280452728271,
+          "test_precision": 0.7697005271911621,
+          "test_recall": 0.7622500061988831,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.6982358136177063,
+          "test_f1": 0.7327117919921875,
+          "test_precision": 0.735145092010498,
+          "test_recall": 0.7325000166893005,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.6309073543548585,
+          "test_f1": 0.7580956220626831,
+          "test_precision": 0.7602445483207703,
+          "test_recall": 0.7584999799728394,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.1874464045630562,
+        "test_acc": 0.5489645202954611
+      },
+      "objects_avg": {
+        "test_loss": 0.6593191741307577,
+        "test_acc": 0.7510784864425659
+      },
+      "overall_avg": {
+        "test_loss": 0.9233827893469068,
+        "test_acc": 0.6500215033690134
+      }
+    },
+    {
+      "round": 11,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.1988138907750447,
+          "test_f1": 0.5509624481201172,
+          "test_precision": 0.5873407125473022,
+          "test_recall": 0.549833357334137,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.2372558857599893,
+          "test_f1": 0.5234910249710083,
+          "test_precision": 0.5714533925056458,
+          "test_recall": 0.5383332967758179,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.1387963759104411,
+          "test_f1": 0.570103645324707,
+          "test_precision": 0.6017093658447266,
+          "test_recall": 0.5746666789054871,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6669536638259888,
+          "test_f1": 0.7548558712005615,
+          "test_precision": 0.7703456878662109,
+          "test_recall": 0.7547500133514404,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.6947313590049744,
+          "test_f1": 0.7310001850128174,
+          "test_precision": 0.7335691452026367,
+          "test_recall": 0.7317500114440918,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.633499258518219,
+          "test_f1": 0.7532131671905518,
+          "test_precision": 0.759095311164856,
+          "test_recall": 0.7524999976158142,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.1916220508151585,
+        "test_acc": 0.5481857061386108
+      },
+      "objects_avg": {
+        "test_loss": 0.665061427116394,
+        "test_acc": 0.7463564078013102
+      },
+      "overall_avg": {
+        "test_loss": 0.9283417389657762,
+        "test_acc": 0.6472710569699606
+      }
+    },
+    {
+      "round": 12,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.1519949550628663,
+          "test_f1": 0.5696789026260376,
+          "test_precision": 0.5953969955444336,
+          "test_recall": 0.565666675567627,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.2419597050348918,
+          "test_f1": 0.5350938439369202,
+          "test_precision": 0.5794516801834106,
+          "test_recall": 0.543666660785675,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.0857984228134154,
+          "test_f1": 0.5907178521156311,
+          "test_precision": 0.6025723814964294,
+          "test_recall": 0.5881666541099548,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6453206124305725,
+          "test_f1": 0.7603729963302612,
+          "test_precision": 0.7718847990036011,
+          "test_recall": 0.7599999904632568,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.7002295126914978,
+          "test_f1": 0.7272170782089233,
+          "test_precision": 0.7332611680030823,
+          "test_recall": 0.7269999980926514,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.6284981794357299,
+          "test_f1": 0.7575687170028687,
+          "test_precision": 0.7629345655441284,
+          "test_recall": 0.7575000524520874,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.1599176943037246,
+        "test_acc": 0.5651635328928629
+      },
+      "objects_avg": {
+        "test_loss": 0.6580161015192667,
+        "test_acc": 0.7483862638473511
+      },
+      "overall_avg": {
+        "test_loss": 0.9089668979114957,
+        "test_acc": 0.656774898370107
+      }
+    },
+    {
+      "round": 13,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.1904249267578124,
+          "test_f1": 0.5536913871765137,
+          "test_precision": 0.6081399917602539,
+          "test_recall": 0.5491666793823242,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.2210025987625122,
+          "test_f1": 0.5416909456253052,
+          "test_precision": 0.5800417065620422,
+          "test_recall": 0.5533333420753479,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.0941723136901855,
+          "test_f1": 0.5903733968734741,
+          "test_precision": 0.615623950958252,
+          "test_recall": 0.5864999890327454,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6287299213409424,
+          "test_f1": 0.7684629559516907,
+          "test_precision": 0.7762597799301147,
+          "test_recall": 0.7677500247955322,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.740602719783783,
+          "test_f1": 0.7096107006072998,
+          "test_precision": 0.7267299294471741,
+          "test_recall": 0.7100000381469727,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.6256023182868957,
+          "test_f1": 0.75480055809021,
+          "test_precision": 0.7611393928527832,
+          "test_recall": 0.7544999718666077,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.1685332797368366,
+        "test_acc": 0.561918576558431
+      },
+      "objects_avg": {
+        "test_loss": 0.6649783198038737,
+        "test_acc": 0.7442914048830668
+      },
+      "overall_avg": {
+        "test_loss": 0.916755799770355,
+        "test_acc": 0.6531049907207489
+      }
+    },
+    {
+      "round": 14,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.1262598594029745,
+          "test_f1": 0.5833753347396851,
+          "test_precision": 0.6012969613075256,
+          "test_recall": 0.5789999961853027,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.1413991861343384,
+          "test_f1": 0.5711744427680969,
+          "test_precision": 0.5927479267120361,
+          "test_recall": 0.5795000195503235,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.0618427235285441,
+          "test_f1": 0.5938951969146729,
+          "test_precision": 0.60053950548172,
+          "test_recall": 0.5996667146682739,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6536186971664428,
+          "test_f1": 0.7497073411941528,
+          "test_precision": 0.7650105953216553,
+          "test_recall": 0.750249981880188,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.7315955057144164,
+          "test_f1": 0.7200839519500732,
+          "test_precision": 0.7322730422019958,
+          "test_recall": 0.7200000286102295,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.6082921037673951,
+          "test_f1": 0.7650101184844971,
+          "test_precision": 0.7670488357543945,
+          "test_recall": 0.7649999856948853,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.1098339230219523,
+        "test_acc": 0.5828149914741516
+      },
+      "objects_avg": {
+        "test_loss": 0.6645021022160847,
+        "test_acc": 0.7449338038762411
+      },
+      "overall_avg": {
+        "test_loss": 0.8871680126190186,
+        "test_acc": 0.6638743976751963
+      }
+    },
+    {
+      "round": 15,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.1550188287099203,
+          "test_f1": 0.5653032064437866,
+          "test_precision": 0.6081658601760864,
+          "test_recall": 0.5646666884422302,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.1682816845575967,
+          "test_f1": 0.5627247095108032,
+          "test_precision": 0.5979042053222656,
+          "test_recall": 0.5708333253860474,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.0497310260136923,
+          "test_f1": 0.6032151579856873,
+          "test_precision": 0.605165958404541,
+          "test_recall": 0.6053333282470703,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6392580051422119,
+          "test_f1": 0.7648371458053589,
+          "test_precision": 0.77433180809021,
+          "test_recall": 0.7647500038146973,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.7220492811203003,
+          "test_f1": 0.720200777053833,
+          "test_precision": 0.7368543744087219,
+          "test_recall": 0.7217499613761902,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.6455388903617859,
+          "test_f1": 0.7495770454406738,
+          "test_precision": 0.7634364366531372,
+          "test_recall": 0.7512500286102295,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.1243438464270696,
+        "test_acc": 0.577081024646759
+      },
+      "objects_avg": {
+        "test_loss": 0.6689487255414327,
+        "test_acc": 0.7448716560999552
+      },
+      "overall_avg": {
+        "test_loss": 0.8966462859842513,
+        "test_acc": 0.6609763403733572
+      }
+    },
+    {
+      "round": 16,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.1482486403783163,
+          "test_f1": 0.5710839033126831,
+          "test_precision": 0.601070761680603,
+          "test_recall": 0.5709999799728394,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.1946339378356934,
+          "test_f1": 0.5493640899658203,
+          "test_precision": 0.5833225250244141,
+          "test_recall": 0.5596666932106018,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.084836545308431,
+          "test_f1": 0.5883357524871826,
+          "test_precision": 0.6086408495903015,
+          "test_recall": 0.5923333168029785,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6074558982849121,
+          "test_f1": 0.7774402499198914,
+          "test_precision": 0.7814973592758179,
+          "test_recall": 0.7769999504089355,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.7285672264099121,
+          "test_f1": 0.7235624194145203,
+          "test_precision": 0.7433763742446899,
+          "test_recall": 0.7250000238418579,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.6138228158950806,
+          "test_f1": 0.7621208429336548,
+          "test_precision": 0.7665558457374573,
+          "test_recall": 0.762499988079071,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.1425730411741468,
+        "test_acc": 0.5695945819218954
+      },
+      "objects_avg": {
+        "test_loss": 0.6499486468633017,
+        "test_acc": 0.7543745040893555
+      },
+      "overall_avg": {
+        "test_loss": 0.8962608440187242,
+        "test_acc": 0.6619845430056254
+      }
+    },
+    {
+      "round": 17,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.1506332263946533,
+          "test_f1": 0.5732254385948181,
+          "test_precision": 0.6030932664871216,
+          "test_recall": 0.5696666240692139,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.1106975469589233,
+          "test_f1": 0.5818201303482056,
+          "test_precision": 0.5975464582443237,
+          "test_recall": 0.5864999890327454,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.076819483121236,
+          "test_f1": 0.5934802293777466,
+          "test_precision": 0.609287679195404,
+          "test_recall": 0.596333384513855,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6398078694343566,
+          "test_f1": 0.7614100575447083,
+          "test_precision": 0.7778135538101196,
+          "test_recall": 0.7617499828338623,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.6868382706642151,
+          "test_f1": 0.7353276014328003,
+          "test_precision": 0.7509509325027466,
+          "test_recall": 0.7354999780654907,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.6270138421058655,
+          "test_f1": 0.7592701315879822,
+          "test_precision": 0.7662057876586914,
+          "test_recall": 0.7594999670982361,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.1127167521582708,
+        "test_acc": 0.5828419327735901
+      },
+      "objects_avg": {
+        "test_loss": 0.6512199940681457,
+        "test_acc": 0.7520025968551636
+      },
+      "overall_avg": {
+        "test_loss": 0.8819683731132084,
+        "test_acc": 0.6674222648143768
+      }
+    },
+    {
+      "round": 18,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.1788346865971884,
+          "test_f1": 0.5704160332679749,
+          "test_precision": 0.6156440377235413,
+          "test_recall": 0.5649999976158142,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.1327396612167357,
+          "test_f1": 0.5771512985229492,
+          "test_precision": 0.5999854803085327,
+          "test_recall": 0.5848333835601807,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.0453998498916626,
+          "test_f1": 0.5985877513885498,
+          "test_precision": 0.6005215644836426,
+          "test_recall": 0.6058333516120911,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6644828634262085,
+          "test_f1": 0.7539219260215759,
+          "test_precision": 0.7721187472343445,
+          "test_recall": 0.7549999952316284,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.6468678064346314,
+          "test_f1": 0.7459176778793335,
+          "test_precision": 0.7533257603645325,
+          "test_recall": 0.7457500100135803,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.626621949672699,
+          "test_f1": 0.7614090442657471,
+          "test_precision": 0.7695177793502808,
+          "test_recall": 0.7617499828338623,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.1189913992351956,
+        "test_acc": 0.582051694393158
+      },
+      "objects_avg": {
+        "test_loss": 0.6459908731778463,
+        "test_acc": 0.7537495493888855
+      },
+      "overall_avg": {
+        "test_loss": 0.882491136206521,
+        "test_acc": 0.6679006218910217
+      }
+    },
+    {
+      "round": 19,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.0549103933970134,
+          "test_f1": 0.607062578201294,
+          "test_precision": 0.6167006492614746,
+          "test_recall": 0.6054999828338623,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.1435691839853923,
+          "test_f1": 0.5646295547485352,
+          "test_precision": 0.5914269089698792,
+          "test_recall": 0.5729999542236328,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.07586749458313,
+          "test_f1": 0.5986595153808594,
+          "test_precision": 0.6171213388442993,
+          "test_recall": 0.5973333716392517,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6482705483436585,
+          "test_f1": 0.766251802444458,
+          "test_precision": 0.783768892288208,
+          "test_recall": 0.7664999961853027,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.6805608339309692,
+          "test_f1": 0.7363699674606323,
+          "test_precision": 0.7514829635620117,
+          "test_recall": 0.7369999885559082,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.5988632965087891,
+          "test_f1": 0.7738783359527588,
+          "test_precision": 0.7820817828178406,
+          "test_recall": 0.7739999890327454,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.0914490239885117,
+        "test_acc": 0.5901172161102295
+      },
+      "objects_avg": {
+        "test_loss": 0.6425648929278056,
+        "test_acc": 0.7588333686192831
+      },
+      "overall_avg": {
+        "test_loss": 0.8670069584581587,
+        "test_acc": 0.6744752923647562
+      }
+    },
+    {
+      "round": 20,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.1271849133173624,
+          "test_f1": 0.5941040515899658,
+          "test_precision": 0.6221885085105896,
+          "test_recall": 0.5868333578109741,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.1029747950236002,
+          "test_f1": 0.5768227577209473,
+          "test_precision": 0.6001959443092346,
+          "test_recall": 0.5881666541099548,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.0395547250111898,
+          "test_f1": 0.6127994060516357,
+          "test_precision": 0.621770977973938,
+          "test_recall": 0.6121666431427002,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6420000097751617,
+          "test_f1": 0.7592939138412476,
+          "test_precision": 0.7720643877983093,
+          "test_recall": 0.7597500085830688,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.6463704330921173,
+          "test_f1": 0.7537030577659607,
+          "test_precision": 0.7579619884490967,
+          "test_recall": 0.7537499666213989,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.5724943437576294,
+          "test_f1": 0.7804846167564392,
+          "test_precision": 0.7837415337562561,
+          "test_recall": 0.7804999947547913,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.089904811117384,
+        "test_acc": 0.5945754051208496
+      },
+      "objects_avg": {
+        "test_loss": 0.6202882622083027,
+        "test_acc": 0.7644938627878824
+      },
+      "overall_avg": {
+        "test_loss": 0.8550965366628432,
+        "test_acc": 0.6795346339543661
+      }
+    },
+    {
+      "round": 21,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.1229273681640626,
+          "test_f1": 0.5933078527450562,
+          "test_precision": 0.6219042539596558,
+          "test_recall": 0.5873333215713501,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.129440925916036,
+          "test_f1": 0.5808490514755249,
+          "test_precision": 0.5986315011978149,
+          "test_recall": 0.5865000486373901,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.0743475818634034,
+          "test_f1": 0.5870426893234253,
+          "test_precision": 0.6270619630813599,
+          "test_recall": 0.5973333120346069,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6422343933582306,
+          "test_f1": 0.7565764784812927,
+          "test_precision": 0.7711077928543091,
+          "test_recall": 0.7580000162124634,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.6979825191497803,
+          "test_f1": 0.7461382150650024,
+          "test_precision": 0.7639771699905396,
+          "test_recall": 0.7475000023841858,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.5902069797515869,
+          "test_f1": 0.7756991982460022,
+          "test_precision": 0.7782472372055054,
+          "test_recall": 0.7757500410079956,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.1089052919811673,
+        "test_acc": 0.5870665311813354
+      },
+      "objects_avg": {
+        "test_loss": 0.6434746307531992,
+        "test_acc": 0.7594712972640991
+      },
+      "overall_avg": {
+        "test_loss": 0.8761899613671833,
+        "test_acc": 0.6732689142227173
+      }
+    },
+    {
+      "round": 22,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.1450525102615356,
+          "test_f1": 0.5884507894515991,
+          "test_precision": 0.6152390837669373,
+          "test_recall": 0.5828332901000977,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.1180126034418743,
+          "test_f1": 0.5788050889968872,
+          "test_precision": 0.6034290194511414,
+          "test_recall": 0.5931666493415833,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.0282354389826456,
+          "test_f1": 0.6100536584854126,
+          "test_precision": 0.6130200028419495,
+          "test_recall": 0.6159999966621399,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6475265803337097,
+          "test_f1": 0.7616962194442749,
+          "test_precision": 0.7801493406295776,
+          "test_recall": 0.7625000476837158,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.6374929134845734,
+          "test_f1": 0.7515584826469421,
+          "test_precision": 0.7550724148750305,
+          "test_recall": 0.7515000104904175,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.6373629031181336,
+          "test_f1": 0.7573376893997192,
+          "test_precision": 0.7734842300415039,
+          "test_recall": 0.7595000267028809,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.0971001842286852,
+        "test_acc": 0.5924365123112997
+      },
+      "objects_avg": {
+        "test_loss": 0.6407941323121389,
+        "test_acc": 0.7568641304969788
+      },
+      "overall_avg": {
+        "test_loss": 0.8689471582704121,
+        "test_acc": 0.6746503214041392
+      }
+    },
+    {
+      "round": 23,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.22598690478007,
+          "test_f1": 0.5549184083938599,
+          "test_precision": 0.6287862062454224,
+          "test_recall": 0.5538333654403687,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.166659436225891,
+          "test_f1": 0.5648548603057861,
+          "test_precision": 0.5980244278907776,
+          "test_recall": 0.5733333230018616,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.082659646987915,
+          "test_f1": 0.5951263308525085,
+          "test_precision": 0.6104433536529541,
+          "test_recall": 0.6008332967758179,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.7212878394126893,
+          "test_f1": 0.7384681701660156,
+          "test_precision": 0.7753442525863647,
+          "test_recall": 0.7402499914169312,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.6035464215278625,
+          "test_f1": 0.7650490403175354,
+          "test_precision": 0.7675458192825317,
+          "test_recall": 0.765749990940094,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.5861026782989502,
+          "test_f1": 0.7809075117111206,
+          "test_precision": 0.7851697206497192,
+          "test_recall": 0.781000018119812,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.1584353293312921,
+        "test_acc": 0.5716331998507181
+      },
+      "objects_avg": {
+        "test_loss": 0.6369789797465008,
+        "test_acc": 0.7614749073982239
+      },
+      "overall_avg": {
+        "test_loss": 0.8977071545388963,
+        "test_acc": 0.6665540536244711
+      }
+    },
+    {
+      "round": 24,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.1766292848587037,
+          "test_f1": 0.571258008480072,
+          "test_precision": 0.6152353286743164,
+          "test_recall": 0.5683333277702332,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.1690951913197836,
+          "test_f1": 0.5658270120620728,
+          "test_precision": 0.6125215291976929,
+          "test_recall": 0.5730000138282776,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.0687071959177652,
+          "test_f1": 0.6022520661354065,
+          "test_precision": 0.6136534810066223,
+          "test_recall": 0.6053333282470703,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6704634447097778,
+          "test_f1": 0.7561746835708618,
+          "test_precision": 0.779205858707428,
+          "test_recall": 0.7560000419616699,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.6652305777072907,
+          "test_f1": 0.7430910468101501,
+          "test_precision": 0.7638194561004639,
+          "test_recall": 0.7427500486373901,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.5890666284561157,
+          "test_f1": 0.7797215580940247,
+          "test_precision": 0.7857901453971863,
+          "test_recall": 0.7799999713897705,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.1381438906987509,
+        "test_acc": 0.5797790288925171
+      },
+      "objects_avg": {
+        "test_loss": 0.6415868836243946,
+        "test_acc": 0.7596624294916788
+      },
+      "overall_avg": {
+        "test_loss": 0.8898653871615729,
+        "test_acc": 0.669720729192098
+      }
+    },
+    {
+      "round": 25,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.1179034226735434,
+          "test_f1": 0.5969170331954956,
+          "test_precision": 0.6168771386146545,
+          "test_recall": 0.5920000076293945,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.0790944811503091,
+          "test_f1": 0.5937241315841675,
+          "test_precision": 0.6124415397644043,
+          "test_recall": 0.6001666784286499,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.0653272625605266,
+          "test_f1": 0.6039950847625732,
+          "test_precision": 0.6269650459289551,
+          "test_recall": 0.6024999618530273,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6508207097053528,
+          "test_f1": 0.7619671821594238,
+          "test_precision": 0.779374361038208,
+          "test_recall": 0.7627500295639038,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.6114073514938354,
+          "test_f1": 0.7660642266273499,
+          "test_precision": 0.7738242149353027,
+          "test_recall": 0.7657500505447388,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.574853901386261,
+          "test_f1": 0.7888957858085632,
+          "test_precision": 0.7937612533569336,
+          "test_recall": 0.7892500162124634,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.0874417221281265,
+        "test_acc": 0.5982120831807455
+      },
+      "objects_avg": {
+        "test_loss": 0.6123606541951497,
+        "test_acc": 0.7723090648651123
+      },
+      "overall_avg": {
+        "test_loss": 0.849901188161638,
+        "test_acc": 0.6852605740229288
+      }
+    },
+    {
+      "round": 26,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.1346186062494914,
+          "test_f1": 0.5888590216636658,
+          "test_precision": 0.6169302463531494,
+          "test_recall": 0.5866667032241821,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.1334949553807576,
+          "test_f1": 0.5774102807044983,
+          "test_precision": 0.6013979315757751,
+          "test_recall": 0.5886666774749756,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.0584425938924154,
+          "test_f1": 0.5988070964813232,
+          "test_precision": 0.610021710395813,
+          "test_recall": 0.6115000247955322,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6274177329540253,
+          "test_f1": 0.7738597393035889,
+          "test_precision": 0.7883931994438171,
+          "test_recall": 0.7739999890327454,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.72650186252594,
+          "test_f1": 0.734337568283081,
+          "test_precision": 0.7661662101745605,
+          "test_recall": 0.7347500324249268,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.5830244836807251,
+          "test_f1": 0.7784099578857422,
+          "test_precision": 0.7896490097045898,
+          "test_recall": 0.7790000438690186,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.108852051840888,
+        "test_acc": 0.5883587996164957
+      },
+      "objects_avg": {
+        "test_loss": 0.6456480263868968,
+        "test_acc": 0.7622024218241373
+      },
+      "overall_avg": {
+        "test_loss": 0.8772500391138923,
+        "test_acc": 0.6752806107203165
+      }
+    },
+    {
+      "round": 27,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.1963440427780152,
+          "test_f1": 0.5663464665412903,
+          "test_precision": 0.6121620535850525,
+          "test_recall": 0.559166669845581,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.1674290539423624,
+          "test_f1": 0.5692380666732788,
+          "test_precision": 0.6010787487030029,
+          "test_recall": 0.5785000324249268,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.1006579828262328,
+          "test_f1": 0.5968701243400574,
+          "test_precision": 0.6260032057762146,
+          "test_recall": 0.5993333458900452,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6342610821723939,
+          "test_f1": 0.7713358402252197,
+          "test_precision": 0.7866840362548828,
+          "test_recall": 0.7714999914169312,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.6239003963470459,
+          "test_f1": 0.7689348459243774,
+          "test_precision": 0.7808573842048645,
+          "test_recall": 0.7699999809265137,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.5849095277786255,
+          "test_f1": 0.777182936668396,
+          "test_precision": 0.7878232002258301,
+          "test_recall": 0.777999997138977,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.1548103598488701,
+        "test_acc": 0.5774848858515421
+      },
+      "objects_avg": {
+        "test_loss": 0.6143570020993551,
+        "test_acc": 0.772484540939331
+      },
+      "overall_avg": {
+        "test_loss": 0.8845836809741127,
+        "test_acc": 0.6749847133954366
+      }
+    },
+    {
+      "round": 28,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.1468002319335937,
+          "test_f1": 0.5873363614082336,
+          "test_precision": 0.6227084994316101,
+          "test_recall": 0.5841666460037231,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.1108296842575074,
+          "test_f1": 0.5901870727539062,
+          "test_precision": 0.6056015491485596,
+          "test_recall": 0.5961666107177734,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.0775543568929036,
+          "test_f1": 0.5955323576927185,
+          "test_precision": 0.6154906749725342,
+          "test_recall": 0.6023333668708801,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.6971946220397949,
+          "test_f1": 0.737188458442688,
+          "test_precision": 0.7753325700759888,
+          "test_recall": 0.7409999966621399,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.643122629404068,
+          "test_f1": 0.7606039047241211,
+          "test_precision": 0.7721454501152039,
+          "test_recall": 0.7610000371932983,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.629978714466095,
+          "test_f1": 0.7637460231781006,
+          "test_precision": 0.7824499607086182,
+          "test_recall": 0.7662500143051147,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.1117280910280016,
+        "test_acc": 0.5910185972849528
+      },
+      "objects_avg": {
+        "test_loss": 0.6567653219699859,
+        "test_acc": 0.7538461287816366
+      },
+      "overall_avg": {
+        "test_loss": 0.884246706498994,
+        "test_acc": 0.6724323630332947
+      }
+    },
+    {
+      "round": 29,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.157082825978597,
+          "test_f1": 0.5825588703155518,
+          "test_precision": 0.6191049814224243,
+          "test_recall": 0.5828332901000977,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.2477892656326295,
+          "test_f1": 0.5376340746879578,
+          "test_precision": 0.5881960391998291,
+          "test_recall": 0.5511666536331177,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.0573099454243977,
+          "test_f1": 0.6067410111427307,
+          "test_precision": 0.6264537572860718,
+          "test_recall": 0.6024999618530273,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.5774407856464386,
+          "test_f1": 0.7915260791778564,
+          "test_precision": 0.7958436012268066,
+          "test_recall": 0.7914999723434448,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.6203007721900939,
+          "test_f1": 0.7678011059761047,
+          "test_precision": 0.7771354913711548,
+          "test_recall": 0.7677500247955322,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.6007246823310852,
+          "test_f1": 0.7750071287155151,
+          "test_precision": 0.7923348546028137,
+          "test_recall": 0.7747499942779541,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.1540606790118746,
+        "test_acc": 0.5756446520487467
+      },
+      "objects_avg": {
+        "test_loss": 0.5994887467225393,
+        "test_acc": 0.7781114379564921
+      },
+      "overall_avg": {
+        "test_loss": 0.8767747128672069,
+        "test_acc": 0.6768780450026194
+      }
+    },
+    {
+      "round": 30,
+      "clients": {
+        "AN_Cifar10_C0": {
+          "test_loss": 1.138148746172587,
+          "test_f1": 0.5918235778808594,
+          "test_precision": 0.6169512867927551,
+          "test_recall": 0.5831666588783264,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C1": {
+          "test_loss": 1.1604543968836467,
+          "test_f1": 0.5724740028381348,
+          "test_precision": 0.6069897413253784,
+          "test_recall": 0.581000030040741,
+          "tasktype": "Animals"
+        },
+        "AN_Cifar10_C2": {
+          "test_loss": 1.06066277217865,
+          "test_f1": 0.6023921370506287,
+          "test_precision": 0.6227993369102478,
+          "test_recall": 0.6046666502952576,
+          "tasktype": "Animals"
+        },
+        "OB_Cifar10_C0": {
+          "test_loss": 0.5870735309123993,
+          "test_f1": 0.7813300490379333,
+          "test_precision": 0.7890080213546753,
+          "test_recall": 0.781000018119812,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C1": {
+          "test_loss": 0.6424992611408233,
+          "test_f1": 0.7619026899337769,
+          "test_precision": 0.7781496047973633,
+          "test_recall": 0.7612499594688416,
+          "tasktype": "Objects"
+        },
+        "OB_Cifar10_C2": {
+          "test_loss": 0.5599061422348023,
+          "test_f1": 0.7888157367706299,
+          "test_precision": 0.7950363755226135,
+          "test_recall": 0.7882499694824219,
+          "tasktype": "Objects"
+        }
+      },
+      "animals_avg": {
+        "test_loss": 1.1197553050782945,
+        "test_acc": 0.5888965725898743
+      },
+      "objects_avg": {
+        "test_loss": 0.5964929780960083,
+        "test_acc": 0.7773494919141134
+      },
+      "overall_avg": {
+        "test_loss": 0.8581241415871514,
+        "test_acc": 0.6831230322519938
+      }
+    }
+  ]
+}

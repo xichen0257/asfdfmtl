@@ -13,6 +13,9 @@ dist/
 
 data/
 checkpoints/*
+logs/
 
-
+# Virtual environment
+/venv
+venv/
 

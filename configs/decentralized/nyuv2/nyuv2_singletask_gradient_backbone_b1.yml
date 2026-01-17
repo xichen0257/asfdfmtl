@@ -1,0 +1,100 @@
+# B1: Pure Gradient + Backbone-Only + Weighted v2
+# Task Discovery Experiment 1: Pure gradient similarity with weighted aggregation
+#
+# Improvements from FIXED version:
+# Aggressive early stopping (patience=6)
+# Learning rate scheduler (cosine annealing)
+# Expected to stop at Round 20-25 with ~17% improvement
+
+general:
+  title: "b1_pure_grad_weighted_v2"
+  seed: 42
+  description: "B1 v2: Task discovery with pure gradient + backbone-only + weighted"
+
+data:
+  dataset: "nyuv2"
+  root_dir: "./data/nyuv2"
+  dataset_fraction: 1.0
+
+setup:
+  num_clients: 6
+  n_neighbors: 3
+  alpha: 0.0  # Pure gradient similarity (no task overlap)
+  aggregate_heads: false  # Backbone-only aggregation
+  task_threshold: 0.1
+  aggregation_method: "weighted"
+
+  # Hard clustering: 2 clients per task (same as A1)
+  task_weights_per_client:
+    # C0-C1: depth only
+    - depth: 1.0
+      segmentation: 0.0
+      normal: 0.0
+
+    - depth: 1.0
+      segmentation: 0.0
+      normal: 0.0
+
+    # C2-C3: segmentation only
+    - depth: 0.0
+      segmentation: 1.0
+      normal: 0.0
+
+    - depth: 0.0
+      segmentation: 1.0
+      normal: 0.0
+
+    # C4-C5: normal only
+    - depth: 0.0
+      segmentation: 0.0
+      normal: 1.0
+
+    - depth: 0.0
+      segmentation: 0.0
+      normal: 1.0
+
+training:
+  num_rounds: 50
+  local_epochs: 5
+  batch_size: 4
+  learning_rate: 0.001
+  optimizer: "adam"
+
+  # Learning rate scheduler (NEW)
+  lr_scheduler:
+    enabled: true
+    type: "cosine"
+    min_lr: 0.0001
+    warmup_rounds: 3
+
+  # Aggressive early stopping (NEW)
+  early_stopping:
+    enabled: true
+    patience: 6  # Shorter patience due to severe degradation
+    min_delta: 0.005  # More sensitive threshold
+    restore_best_weights: true
+    verbose: true
+    mode: "min"
+
+model:
+  backbone: "resnet50"
+  pretrained: true
+  num_seg_classes: 13
+  out_size: [288, 384]
+
+output:
+  output_dir: "./results/nyuv2/b1_pure_grad_weighted_v2"
+  save_checkpoints: true
+  checkpoint_frequency: 5
+  log_frequency: 1
+  save_metrics_every_round: true
+
+# Expected results:
+# - Training stops at Round 20-25 (vs 50 in FIXED)
+# - Best loss: ~0.78-0.79 (vs 0.9402 in FIXED)
+# - Improvement: ~17%
+#
+# Research value:
+# - Establishes baseline for pure gradient methods
+# - Compares against B2 (HCA) to quantify HCA benefit
+# - Tests automatic task discovery capability

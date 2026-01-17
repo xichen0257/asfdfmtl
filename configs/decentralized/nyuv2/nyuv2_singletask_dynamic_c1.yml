@@ -1,0 +1,101 @@
+# C1: Proposal1 - Backbone-Only Dynamic Clustering v2
+# Advanced: Dynamic soft clustering with gradient similarity
+#
+# Improvements from FIXED version:
+# Early stopping (patience=8)
+# Learning rate scheduler
+# Expected to reduce client variance and improve consistency
+
+general:
+  title: "c1_proposal1_dynamic_v2"
+  seed: 42
+  description: "C1 v2: Proposal1 with early stopping and LR scheduler"
+
+data:
+  dataset: "nyuv2"
+  root_dir: "./data/nyuv2"
+  dataset_fraction: 1.0
+
+setup:
+  num_clients: 6
+  n_neighbors: 3
+  alpha: 0.0  # Pure gradient similarity
+  aggregate_heads: false  # Backbone-only aggregation
+  task_threshold: 0.1
+  aggregation_method: "weighted"
+
+  # Hard clustering: 2 clients per task
+  task_weights_per_client:
+    # C0-C1: depth only
+    - depth: 1.0
+      segmentation: 0.0
+      normal: 0.0
+
+    - depth: 1.0
+      segmentation: 0.0
+      normal: 0.0
+
+    # C2-C3: segmentation only
+    - depth: 0.0
+      segmentation: 1.0
+      normal: 0.0
+
+    - depth: 0.0
+      segmentation: 1.0
+      normal: 0.0
+
+    # C4-C5: normal only
+    - depth: 0.0
+      segmentation: 0.0
+      normal: 1.0
+
+    - depth: 0.0
+      segmentation: 0.0
+      normal: 1.0
+
+training:
+  num_rounds: 50
+  local_epochs: 5
+  batch_size: 4
+  learning_rate: 0.001
+  optimizer: "adam"
+
+  # Learning rate scheduler (NEW)
+  lr_scheduler:
+    enabled: true
+    type: "cosine"
+    min_lr: 0.0001
+    warmup_rounds: 5  # Longer warmup for dynamic clustering
+
+  # Early stopping (NEW)
+  early_stopping:
+    enabled: true
+    patience: 8
+    min_delta: 0.003
+    restore_best_weights: true
+    verbose: true
+    mode: "min"
+
+model:
+  backbone: "resnet50"
+  pretrained: true
+  num_seg_classes: 13
+  out_size: [288, 384]
+
+output:
+  output_dir: "./results/nyuv2/c1_proposal1_dynamic_v2"
+  save_checkpoints: true
+  checkpoint_frequency: 5
+  log_frequency: 1
+  save_metrics_every_round: true
+
+# Expected results:
+# - Training stops at Round 28-35
+# - Best loss: ~0.75-0.78 (vs 0.8415 in FIXED)
+# - Improvement: 10-15%
+# - Reduced client variance (vs 0.70-1.04 in FIXED)
+#
+# Investigation:
+# - Why did clients 2 and 5 perform poorly in FIXED?
+# - Will early stopping reduce variance?
+# - Is backbone-only aggregation suitable for dynamic clustering?

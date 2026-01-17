@@ -1,0 +1,2790 @@
+{
+  "config": {
+    "general": {
+      "title": "b4_multitask_pure_grad_v2",
+      "seed": 42,
+      "description": "B4 v2: Multi-task clients with pure gradient similarity (\u03b1=0.0)"
+    },
+    "data": {
+      "dataset": "nyuv2",
+      "root_dir": "./data/nyuv2",
+      "dataset_fraction": 1.0
+    },
+    "setup": {
+      "num_clients": 6,
+      "n_neighbors": 3,
+      "alpha": 0.0,
+      "aggregate_heads": true,
+      "task_threshold": 0.1,
+      "aggregation_method": "weighted",
+      "task_weights_per_client": [
+        {
+          "depth": 0.7,
+          "segmentation": 0.3,
+          "normal": 0.0
+        },
+        {
+          "depth": 0.7,
+          "segmentation": 0.0,
+          "normal": 0.3
+        },
+        {
+          "depth": 0.3,
+          "segmentation": 0.7,
+          "normal": 0.0
+        },
+        {
+          "depth": 0.0,
+          "segmentation": 0.7,
+          "normal": 0.3
+        },
+        {
+          "depth": 0.3,
+          "segmentation": 0.0,
+          "normal": 0.7
+        },
+        {
+          "depth": 0.0,
+          "segmentation": 0.3,
+          "normal": 0.7
+        }
+      ]
+    },
+    "training": {
+      "num_rounds": 50,
+      "local_epochs": 5,
+      "batch_size": 4,
+      "learning_rate": 0.001,
+      "optimizer": "adam",
+      "lr_scheduler": {
+        "enabled": true,
+        "type": "cosine",
+        "min_lr": 0.0001,
+        "warmup_rounds": 3
+      },
+      "early_stopping": {
+        "enabled": true,
+        "patience": 10,
+        "min_delta": 0.002,
+        "restore_best_weights": true,
+        "verbose": true,
+        "mode": "min"
+      }
+    },
+    "model": {
+      "backbone": "resnet50",
+      "pretrained": true,
+      "num_seg_classes": 13,
+      "out_size": [
+        288,
+        384
+      ]
+    },
+    "output": {
+      "output_dir": "./results/nyuv2/b4_multitask_pure_grad_v2",
+      "save_checkpoints": true,
+      "checkpoint_frequency": 5,
+      "log_frequency": 1,
+      "save_metrics_every_round": true
+    }
+  },
+  "results": [
+    {
+      "round": 1,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 2.435295671224594,
+            "depth": 2.5338927507400513,
+            "segmentation": 2.2052358984947205,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 1.4460662305355072,
+            "depth": 2.0614404380321503,
+            "segmentation": 0.0,
+            "normal": 0.01019318401813507
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.7581666111946106,
+            "depth": 1.2328748255968094,
+            "segmentation": 1.9832915961742401,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 1.4833683669567108,
+            "depth": 0.0,
+            "segmentation": 2.0757328271865845,
+            "normal": 0.10118457674980164
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.5767235457897186,
+            "depth": 1.9180821478366852,
+            "segmentation": 0.0,
+            "normal": 0.0018555521965026855
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.6018964648246765,
+            "depth": 0.0,
+            "segmentation": 1.9826345443725586,
+            "normal": 0.01015155017375946
+          }
+        }
+      ],
+      "avg_total_loss": 1.3835861484209697,
+      "avg_depth_loss": 1.291048360367616,
+      "avg_seg_loss": 1.374482477704684,
+      "avg_normal_loss": 0.020564143856366474
+    },
+    {
+      "round": 2,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.4549505710601807,
+            "depth": 1.5010338872671127,
+            "segmentation": 1.3474228978157043,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.7964677065610886,
+            "depth": 1.1258752048015594,
+            "segmentation": 0.0,
+            "normal": 0.027850225567817688
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.45180281996727,
+            "depth": 1.0604464411735535,
+            "segmentation": 1.6195270121097565,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.9296248108148575,
+            "depth": 0.0,
+            "segmentation": 1.3261199295520782,
+            "normal": 0.004469588398933411
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3507845923304558,
+            "depth": 1.165688470005989,
+            "segmentation": 0.0,
+            "normal": 0.001540064811706543
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.4324439764022827,
+            "depth": 0.0,
+            "segmentation": 1.427464783191681,
+            "normal": 0.00600646436214447
+          }
+        }
+      ],
+      "avg_total_loss": 0.9026790795226892,
+      "avg_depth_loss": 0.8088406672080358,
+      "avg_seg_loss": 0.9534224371115366,
+      "avg_normal_loss": 0.006644390523433685
+    },
+    {
+      "round": 3,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.2550191581249237,
+            "depth": 1.2003028243780136,
+            "segmentation": 1.3826905190944672,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8617165684700012,
+            "depth": 1.2302945703268051,
+            "segmentation": 0.0,
+            "normal": 0.0017011910676956177
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.3950607180595398,
+            "depth": 1.0288068801164627,
+            "segmentation": 1.5520266890525818,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8796035647392273,
+            "depth": 0.0,
+            "segmentation": 1.2555221915245056,
+            "normal": 0.0024601221084594727
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3514672815799713,
+            "depth": 1.1688141226768494,
+            "segmentation": 0.0,
+            "normal": 0.0011757612228393555
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3917066976428032,
+            "depth": 0.0,
+            "segmentation": 1.3024320006370544,
+            "normal": 0.0013958364725112915
+          }
+        }
+      ],
+      "avg_total_loss": 0.8557623314360777,
+      "avg_depth_loss": 0.7713697329163551,
+      "avg_seg_loss": 0.9154452333847681,
+      "avg_normal_loss": 0.0011221518119176228
+    },
+    {
+      "round": 4,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.2683326303958893,
+            "depth": 1.220213606953621,
+            "segmentation": 1.3806102871894836,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8085641413927078,
+            "depth": 1.1544034630060196,
+            "segmentation": 0.0,
+            "normal": 0.001605793833732605
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.384441316127777,
+            "depth": 1.1030020266771317,
+            "segmentation": 1.5050581693649292,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8068606406450272,
+            "depth": 0.0,
+            "segmentation": 1.1522506773471832,
+            "normal": 0.0009505599737167358
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3793974816799164,
+            "depth": 1.2619048357009888,
+            "segmentation": 0.0,
+            "normal": 0.001180022954940796
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3689172752201557,
+            "depth": 0.0,
+            "segmentation": 1.2265746593475342,
+            "normal": 0.001349806785583496
+          }
+        }
+      ],
+      "avg_total_loss": 0.8360855809102455,
+      "avg_depth_loss": 0.7899206553896269,
+      "avg_seg_loss": 0.8774156322081884,
+      "avg_normal_loss": 0.0008476972579956055
+    },
+    {
+      "round": 5,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0614238381385803,
+            "depth": 1.0190167725086212,
+            "segmentation": 1.1603736579418182,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8404495567083359,
+            "depth": 1.199926733970642,
+            "segmentation": 0.0,
+            "normal": 0.0016695857048034668
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.2502324134111404,
+            "depth": 1.0617440789937973,
+            "segmentation": 1.331013172864914,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 1.0659234672784805,
+            "depth": 0.0,
+            "segmentation": 1.522342026233673,
+            "normal": 0.0009468495845794678
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3714779019355774,
+            "depth": 1.2354967594146729,
+            "segmentation": 0.0,
+            "normal": 0.0011840909719467163
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.37836412340402603,
+            "depth": 0.0,
+            "segmentation": 1.2580415606498718,
+            "normal": 0.0013594776391983032
+          }
+        }
+      ],
+      "avg_total_loss": 0.8279785501460234,
+      "avg_depth_loss": 0.7526973908146223,
+      "avg_seg_loss": 0.8786284029483795,
+      "avg_normal_loss": 0.0008600006500879923
+    },
+    {
+      "round": 6,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.1819798946380615,
+            "depth": 1.118704542517662,
+            "segmentation": 1.3296224176883698,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.7186443209648132,
+            "depth": 1.02594855427742,
+            "segmentation": 0.0,
+            "normal": 0.0016011595726013184
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.2381901741027832,
+            "depth": 0.9976326078176498,
+            "segmentation": 1.3412862569093704,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 1.094259113073349,
+            "depth": 0.0,
+            "segmentation": 1.5628167241811752,
+            "normal": 0.0009580403566360474
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3769574984908104,
+            "depth": 1.2537955939769745,
+            "segmentation": 0.0,
+            "normal": 0.0011697262525558472
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.38642510026693344,
+            "depth": 0.0,
+            "segmentation": 1.2849117070436478,
+            "normal": 0.0013593882322311401
+          }
+        }
+      ],
+      "avg_total_loss": 0.8327426835894585,
+      "avg_depth_loss": 0.7326802164316177,
+      "avg_seg_loss": 0.9197728509704272,
+      "avg_normal_loss": 0.0008480524023373922
+    },
+    {
+      "round": 7,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0764905512332916,
+            "depth": 0.9803875684738159,
+            "segmentation": 1.30073082447052,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.7282384634017944,
+            "depth": 1.0396455377340317,
+            "segmentation": 0.0,
+            "normal": 0.0016219913959503174
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.4117480516433716,
+            "depth": 1.2759031802415848,
+            "segmentation": 1.4699673056602478,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8683768957853317,
+            "depth": 0.0,
+            "segmentation": 1.240134060382843,
+            "normal": 0.0009435862302780151
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.34525560587644577,
+            "depth": 1.1481044590473175,
+            "segmentation": 0.0,
+            "normal": 0.0011775046586990356
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3651247024536133,
+            "depth": 0.0,
+            "segmentation": 1.2139430046081543,
+            "normal": 0.0013453960418701172
+          }
+        }
+      ],
+      "avg_total_loss": 0.799205711732308,
+      "avg_depth_loss": 0.7406734575827917,
+      "avg_seg_loss": 0.8707958658536276,
+      "avg_normal_loss": 0.0008480797211329142
+    },
+    {
+      "round": 8,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0897627919912338,
+            "depth": 1.0741849392652512,
+            "segmentation": 1.1261110603809357,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8710838109254837,
+            "depth": 1.2437037527561188,
+            "segmentation": 0.0,
+            "normal": 0.001637384295463562
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.5116872787475586,
+            "depth": 0.9128348678350449,
+            "segmentation": 1.768338292837143,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8618369102478027,
+            "depth": 0.0,
+            "segmentation": 1.2307794392108917,
+            "normal": 0.0009709596633911133
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3204621374607086,
+            "depth": 1.0654845088720322,
+            "segmentation": 0.0,
+            "normal": 0.0011668205261230469
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3707200922071934,
+            "depth": 0.0,
+            "segmentation": 1.2325060963630676,
+            "normal": 0.0013832151889801025
+          }
+        }
+      ],
+      "avg_total_loss": 0.8375921702633301,
+      "avg_depth_loss": 0.7160346781214079,
+      "avg_seg_loss": 0.892955814798673,
+      "avg_normal_loss": 0.0008597299456596375
+    },
+    {
+      "round": 9,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.038346141576767,
+            "depth": 0.9103847742080688,
+            "segmentation": 1.3369226157665253,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.7776175439357758,
+            "depth": 1.1101922541856766,
+            "segmentation": 0.0,
+            "normal": 0.001609891653060913
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.2271247208118439,
+            "depth": 0.8566175103187561,
+            "segmentation": 1.3859135210514069,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.9135006368160248,
+            "depth": 0.0,
+            "segmentation": 1.304589956998825,
+            "normal": 0.0009589642286300659
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3386170193552971,
+            "depth": 1.1260084062814713,
+            "segmentation": 0.0,
+            "normal": 0.0011635422706604004
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3666251413524151,
+            "depth": 0.0,
+            "segmentation": 1.218227505683899,
+            "normal": 0.0016526877880096436
+          }
+        }
+      ],
+      "avg_total_loss": 0.7769718673080206,
+      "avg_depth_loss": 0.6672004908323288,
+      "avg_seg_loss": 0.8742755999167761,
+      "avg_normal_loss": 0.0008975143233935038
+    },
+    {
+      "round": 10,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.116986721754074,
+            "depth": 1.0317730158567429,
+            "segmentation": 1.3158186078071594,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8690213859081268,
+            "depth": 1.2407709807157516,
+            "segmentation": 0.0,
+            "normal": 0.0016055405139923096
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.1937856674194336,
+            "depth": 0.9650988131761551,
+            "segmentation": 1.2917943596839905,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.9037232846021652,
+            "depth": 0.0,
+            "segmentation": 1.2906157970428467,
+            "normal": 0.0009742230176925659
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.31855474412441254,
+            "depth": 1.0590739101171494,
+            "segmentation": 0.0,
+            "normal": 0.0011893659830093384
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3908251076936722,
+            "depth": 0.0,
+            "segmentation": 1.2995703220367432,
+            "normal": 0.0013628602027893066
+          }
+        }
+      ],
+      "avg_total_loss": 0.7988161519169807,
+      "avg_depth_loss": 0.7161194533109665,
+      "avg_seg_loss": 0.8662998477617899,
+      "avg_normal_loss": 0.0008553316195805868
+    },
+    {
+      "round": 11,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0213734209537506,
+            "depth": 0.9593194276094437,
+            "segmentation": 1.1661661118268967,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8328794836997986,
+            "depth": 1.1891365498304367,
+            "segmentation": 0.0,
+            "normal": 0.0016129910945892334
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0220134109258652,
+            "depth": 0.8703465461730957,
+            "segmentation": 1.0870134979486465,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.854777067899704,
+            "depth": 0.0,
+            "segmentation": 1.2206927239894867,
+            "normal": 0.0009739100933074951
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3177225813269615,
+            "depth": 1.0563309788703918,
+            "segmentation": 0.0,
+            "normal": 0.001176103949546814
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.76760034263134,
+            "depth": 0.0,
+            "segmentation": 2.5552370846271515,
+            "normal": 0.0014702677726745605
+          }
+        }
+      ],
+      "avg_total_loss": 0.8027277179062366,
+      "avg_depth_loss": 0.6791889170805613,
+      "avg_seg_loss": 1.0048515697320302,
+      "avg_normal_loss": 0.0008722121516863505
+    },
+    {
+      "round": 12,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.1271434873342514,
+            "depth": 1.1004598736763,
+            "segmentation": 1.1894051432609558,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.9628349244594574,
+            "depth": 1.3747933357954025,
+            "segmentation": 0.0,
+            "normal": 0.001598641276359558
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.269472986459732,
+            "depth": 1.0644615143537521,
+            "segmentation": 1.3573350608348846,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 1.0293893069028854,
+            "depth": 0.0,
+            "segmentation": 1.4700646102428436,
+            "normal": 0.001146942377090454
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.38780589401721954,
+            "depth": 1.2899655997753143,
+            "segmentation": 0.0,
+            "normal": 0.0011660009622573853
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.33402109146118164,
+            "depth": 0.0,
+            "segmentation": 1.110012710094452,
+            "normal": 0.0014532357454299927
+          }
+        }
+      ],
+      "avg_total_loss": 0.8517779484391212,
+      "avg_depth_loss": 0.8049467206001282,
+      "avg_seg_loss": 0.8544695874055227,
+      "avg_normal_loss": 0.0008941367268562317
+    },
+    {
+      "round": 13,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.3715185821056366,
+            "depth": 1.2629008144140244,
+            "segmentation": 1.624959945678711,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.6863320767879486,
+            "depth": 0.9797892868518829,
+            "segmentation": 0.0,
+            "normal": 0.0015986114740371704
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.2008059620857239,
+            "depth": 1.0219910889863968,
+            "segmentation": 1.2774409055709839,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.9182451218366623,
+            "depth": 0.0,
+            "segmentation": 1.3113677203655243,
+            "normal": 0.0009590685367584229
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.2853461392223835,
+            "depth": 0.9484401941299438,
+            "segmentation": 0.0,
+            "normal": 0.0011629611253738403
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3416922874748707,
+            "depth": 0.0,
+            "segmentation": 1.1358038485050201,
+            "normal": 0.0013587474822998047
+          }
+        }
+      ],
+      "avg_total_loss": 0.8006566949188709,
+      "avg_depth_loss": 0.7021868973970413,
+      "avg_seg_loss": 0.8915954033533732,
+      "avg_normal_loss": 0.000846564769744873
+    },
+    {
+      "round": 14,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.2235176265239716,
+            "depth": 1.2130233496427536,
+            "segmentation": 1.2480042576789856,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.7325579077005386,
+            "depth": 1.0458248406648636,
+            "segmentation": 0.0,
+            "normal": 0.00160178542137146
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.1602413356304169,
+            "depth": 0.9170930162072182,
+            "segmentation": 1.2644477486610413,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 1.001329466700554,
+            "depth": 0.0,
+            "segmentation": 1.4300618767738342,
+            "normal": 0.0009539872407913208
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.302427027374506,
+            "depth": 1.0053379535675049,
+            "segmentation": 0.0,
+            "normal": 0.0011794716119766235
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.4997454658150673,
+            "depth": 0.0,
+            "segmentation": 1.6624715030193329,
+            "normal": 0.0014342963695526123
+          }
+        }
+      ],
+      "avg_total_loss": 0.819969804957509,
+      "avg_depth_loss": 0.6968798600137234,
+      "avg_seg_loss": 0.934164231022199,
+      "avg_normal_loss": 0.0008615901072820028
+    },
+    {
+      "round": 15,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.059824824333191,
+            "depth": 0.9629505425691605,
+            "segmentation": 1.2858647108078003,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.9634114503860474,
+            "depth": 1.3756197541952133,
+            "segmentation": 0.0,
+            "normal": 0.0015921443700790405
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.1392751187086105,
+            "depth": 0.925013929605484,
+            "segmentation": 1.2311014086008072,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8968579173088074,
+            "depth": 0.0,
+            "segmentation": 1.2808105498552322,
+            "normal": 0.0009684711694717407
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.32187023758888245,
+            "depth": 1.0701753795146942,
+            "segmentation": 0.0,
+            "normal": 0.0011680126190185547
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.36253415420651436,
+            "depth": 0.0,
+            "segmentation": 1.2052834928035736,
+            "normal": 0.0013558417558670044
+          }
+        }
+      ],
+      "avg_total_loss": 0.7906289504220089,
+      "avg_depth_loss": 0.7222932676474253,
+      "avg_seg_loss": 0.8338433603445689,
+      "avg_normal_loss": 0.0008474116524060568
+    },
+    {
+      "round": 16,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.1179218888282776,
+            "depth": 1.0434552133083344,
+            "segmentation": 1.2916773855686188,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.741622120141983,
+            "depth": 1.0587740391492844,
+            "segmentation": 0.0,
+            "normal": 0.0016010254621505737
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.2693384289741516,
+            "depth": 0.9550883024930954,
+            "segmentation": 1.4040170907974243,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.7349316626787186,
+            "depth": 0.0,
+            "segmentation": 1.0493800193071365,
+            "normal": 0.0012188702821731567
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.31499480828642845,
+            "depth": 1.0472641736268997,
+            "segmentation": 0.0,
+            "normal": 0.0011650621891021729
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.5316154882311821,
+            "depth": 0.0,
+            "segmentation": 1.7684676349163055,
+            "normal": 0.0015359669923782349
+          }
+        }
+      ],
+      "avg_total_loss": 0.7850707328567902,
+      "avg_depth_loss": 0.6840969547629356,
+      "avg_seg_loss": 0.9189236884315809,
+      "avg_normal_loss": 0.0009201541543006897
+    },
+    {
+      "round": 17,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.1867477297782898,
+            "depth": 1.1288389265537262,
+            "segmentation": 1.321868360042572,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.701572597026825,
+            "depth": 1.0015624314546585,
+            "segmentation": 0.0,
+            "normal": 0.0015963613986968994
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.1764055341482162,
+            "depth": 1.091725468635559,
+            "segmentation": 1.2126970291137695,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8872859925031662,
+            "depth": 0.0,
+            "segmentation": 1.2671439945697784,
+            "normal": 0.000950738787651062
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3047272562980652,
+            "depth": 1.0130276083946228,
+            "segmentation": 0.0,
+            "normal": 0.001169934868812561
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3762102574110031,
+            "depth": 0.0,
+            "segmentation": 1.2508429139852524,
+            "normal": 0.0013676583766937256
+          }
+        }
+      ],
+      "avg_total_loss": 0.7721582278609276,
+      "avg_depth_loss": 0.7058590725064278,
+      "avg_seg_loss": 0.8420920496185621,
+      "avg_normal_loss": 0.0008474489053090414
+    },
+    {
+      "round": 18,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0602553635835648,
+            "depth": 0.9935494288802147,
+            "segmentation": 1.2159025371074677,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.7764538526535034,
+            "depth": 1.1085382252931595,
+            "segmentation": 0.0,
+            "normal": 0.0015904158353805542
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.1640018224716187,
+            "depth": 0.8986415266990662,
+            "segmentation": 1.277727633714676,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8322797864675522,
+            "depth": 0.0,
+            "segmentation": 1.1885410398244858,
+            "normal": 0.001003548502922058
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3841810002923012,
+            "depth": 1.2778630554676056,
+            "segmentation": 0.0,
+            "normal": 0.0011743903160095215
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.36965034529566765,
+            "depth": 0.0,
+            "segmentation": 1.2289491891860962,
+            "normal": 0.0013794004917144775
+          }
+        }
+      ],
+      "avg_total_loss": 0.7644703617940346,
+      "avg_depth_loss": 0.7130987060566744,
+      "avg_seg_loss": 0.8185200666387876,
+      "avg_normal_loss": 0.0008579591910044352
+    },
+    {
+      "round": 19,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0329419672489166,
+            "depth": 0.9319347888231277,
+            "segmentation": 1.2686253637075424,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.6595270931720734,
+            "depth": 0.9414896070957184,
+            "segmentation": 0.0,
+            "normal": 0.0016145408153533936
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.2247887402772903,
+            "depth": 1.0300357043743134,
+            "segmentation": 1.3082543015480042,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8282525986433029,
+            "depth": 0.0,
+            "segmentation": 1.1827727258205414,
+            "normal": 0.0010390132665634155
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3292711079120636,
+            "depth": 1.094839558005333,
+            "segmentation": 0.0,
+            "normal": 0.001170322299003601
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.4317268952727318,
+            "depth": 0.0,
+            "segmentation": 1.4357747733592987,
+            "normal": 0.001420632004737854
+          }
+        }
+      ],
+      "avg_total_loss": 0.7510847337543964,
+      "avg_depth_loss": 0.666383276383082,
+      "avg_seg_loss": 0.8659045274058977,
+      "avg_normal_loss": 0.0008740847309430441
+    },
+    {
+      "round": 20,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.024855986237526,
+            "depth": 0.9897293001413345,
+            "segmentation": 1.1068183183670044,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.7188946455717087,
+            "depth": 1.0263105183839798,
+            "segmentation": 0.0,
+            "normal": 0.0015909522771835327
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.1476818919181824,
+            "depth": 0.8839633613824844,
+            "segmentation": 1.2607041001319885,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 1.1562827825546265,
+            "depth": 0.0,
+            "segmentation": 1.6514174938201904,
+            "normal": 0.0009684562683105469
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3050055429339409,
+            "depth": 1.01397143304348,
+            "segmentation": 0.0,
+            "normal": 0.001162990927696228
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.32170357182621956,
+            "depth": 0.0,
+            "segmentation": 1.069206491112709,
+            "normal": 0.0013451576232910156
+          }
+        }
+      ],
+      "avg_total_loss": 0.7790707368403673,
+      "avg_depth_loss": 0.6523291021585464,
+      "avg_seg_loss": 0.848024400571982,
+      "avg_normal_loss": 0.0008445928494135538
+    },
+    {
+      "round": 21,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0747536718845367,
+            "depth": 1.00242517888546,
+            "segmentation": 1.243520125746727,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.7021247893571854,
+            "depth": 1.002273514866829,
+            "segmentation": 0.0,
+            "normal": 0.001777753233909607
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.2722900807857513,
+            "depth": 0.8254671096801758,
+            "segmentation": 1.463785707950592,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8088037520647049,
+            "depth": 0.0,
+            "segmentation": 1.1549547910690308,
+            "normal": 0.0011180788278579712
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.349544033408165,
+            "depth": 1.1624089777469635,
+            "segmentation": 0.0,
+            "normal": 0.0011733323335647583
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3037432134151459,
+            "depth": 0.0,
+            "segmentation": 1.0092654675245285,
+            "normal": 0.0013764947652816772
+          }
+        }
+      ],
+      "avg_total_loss": 0.7518765901525816,
+      "avg_depth_loss": 0.6654291301965714,
+      "avg_seg_loss": 0.811921015381813,
+      "avg_normal_loss": 0.0009076098601023356
+    },
+    {
+      "round": 22,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.301749736070633,
+            "depth": 1.2105637192726135,
+            "segmentation": 1.5145173072814941,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.6909954100847244,
+            "depth": 0.9864557981491089,
+            "segmentation": 0.0,
+            "normal": 0.0015879124402999878
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.2128186076879501,
+            "depth": 1.0190853774547577,
+            "segmentation": 1.2958471179008484,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.7682090997695923,
+            "depth": 0.0,
+            "segmentation": 1.097035899758339,
+            "normal": 0.0009465962648391724
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3354022353887558,
+            "depth": 1.1152655631303787,
+            "segmentation": 0.0,
+            "normal": 0.0011750608682632446
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3457721397280693,
+            "depth": 0.0,
+            "segmentation": 1.1493303924798965,
+            "normal": 0.001390025019645691
+          }
+        }
+      ],
+      "avg_total_loss": 0.7758245381216208,
+      "avg_depth_loss": 0.7218950763344765,
+      "avg_seg_loss": 0.8427884529034296,
+      "avg_normal_loss": 0.0008499324321746826
+    },
+    {
+      "round": 23,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.1688273400068283,
+            "depth": 1.0538226962089539,
+            "segmentation": 1.4371714890003204,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.7040076702833176,
+            "depth": 1.0050187557935715,
+            "segmentation": 0.0,
+            "normal": 0.0016485750675201416
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.214074581861496,
+            "depth": 0.8617618530988693,
+            "segmentation": 1.3650658130645752,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.9543877840042114,
+            "depth": 0.0,
+            "segmentation": 1.3629831373691559,
+            "normal": 0.0009987354278564453
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3095657117664814,
+            "depth": 1.0291523933410645,
+            "segmentation": 0.0,
+            "normal": 0.001171410083770752
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.46480418741703033,
+            "depth": 0.0,
+            "segmentation": 1.5461468696594238,
+            "normal": 0.0013715773820877075
+          }
+        }
+      ],
+      "avg_total_loss": 0.8026112125565609,
+      "avg_depth_loss": 0.6582926164070765,
+      "avg_seg_loss": 0.9518945515155792,
+      "avg_normal_loss": 0.0008650496602058411
+    },
+    {
+      "round": 24,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.2023282647132874,
+            "depth": 0.9636146575212479,
+            "segmentation": 1.7593265771865845,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.7181372195482254,
+            "depth": 1.0252300947904587,
+            "segmentation": 0.0,
+            "normal": 0.0015871822834014893
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.2954675406217575,
+            "depth": 0.8072524517774582,
+            "segmentation": 1.5047025382518768,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8829842209815979,
+            "depth": 0.0,
+            "segmentation": 1.2609989941120148,
+            "normal": 0.0009497404098510742
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3153359517455101,
+            "depth": 1.0484391897916794,
+            "segmentation": 0.0,
+            "normal": 0.0011488348245620728
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3794027119874954,
+            "depth": 0.0,
+            "segmentation": 1.261524736881256,
+            "normal": 0.0013503879308700562
+          }
+        }
+      ],
+      "avg_total_loss": 0.7989426515996456,
+      "avg_depth_loss": 0.6407560656468073,
+      "avg_seg_loss": 0.9644254744052887,
+      "avg_normal_loss": 0.0008393575747807821
+    },
+    {
+      "round": 25,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.2777565866708755,
+            "depth": 1.1713716834783554,
+            "segmentation": 1.5259880125522614,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.6929857432842255,
+            "depth": 0.9892264902591705,
+            "segmentation": 0.0,
+            "normal": 0.0017573684453964233
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.3806366473436356,
+            "depth": 1.2158534675836563,
+            "segmentation": 1.451257973909378,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8553169071674347,
+            "depth": 0.0,
+            "segmentation": 1.221441239118576,
+            "normal": 0.001026943325996399
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.39876260608434677,
+            "depth": 1.3264811038970947,
+            "segmentation": 0.0,
+            "normal": 0.001168966293334961
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.37247227877378464,
+            "depth": 0.0,
+            "segmentation": 1.2384058386087418,
+            "normal": 0.0013578534126281738
+          }
+        }
+      ],
+      "avg_total_loss": 0.8296551282207171,
+      "avg_depth_loss": 0.7838221242030462,
+      "avg_seg_loss": 0.9061821773648262,
+      "avg_normal_loss": 0.0008851885795593262
+    },
+    {
+      "round": 26,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0798798203468323,
+            "depth": 0.9828429669141769,
+            "segmentation": 1.3062992095947266,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.7230895310640335,
+            "depth": 1.0323028415441513,
+            "segmentation": 0.0,
+            "normal": 0.0015918463468551636
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.1100126504898071,
+            "depth": 0.9151436537504196,
+            "segmentation": 1.193527951836586,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 1.1208607703447342,
+            "depth": 0.0,
+            "segmentation": 1.6007400155067444,
+            "normal": 0.0011425018310546875
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.2786363251507282,
+            "depth": 0.9260689169168472,
+            "segmentation": 0.0,
+            "normal": 0.0011651962995529175
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.38875698670744896,
+            "depth": 0.0,
+            "segmentation": 1.2927202582359314,
+            "normal": 0.0013441294431686401
+          }
+        }
+      ],
+      "avg_total_loss": 0.7835393473505974,
+      "avg_depth_loss": 0.6427263965209326,
+      "avg_seg_loss": 0.8988812391956648,
+      "avg_normal_loss": 0.0008739456534385681
+    },
+    {
+      "round": 27,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.3385204672813416,
+            "depth": 1.162617176771164,
+            "segmentation": 1.7489615082740784,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8415982574224472,
+            "depth": 1.201590210199356,
+            "segmentation": 0.0,
+            "normal": 0.00161704421043396
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.4224625825881958,
+            "depth": 0.9993943274021149,
+            "segmentation": 1.603777527809143,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8500707596540451,
+            "depth": 0.0,
+            "segmentation": 1.2139761745929718,
+            "normal": 0.0009582191705703735
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3291672393679619,
+            "depth": 1.0945181846618652,
+            "segmentation": 0.0,
+            "normal": 0.00115966796875
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3887081556022167,
+            "depth": 0.0,
+            "segmentation": 1.292533501982689,
+            "normal": 0.001354411244392395
+          }
+        }
+      ],
+      "avg_total_loss": 0.8617545769860347,
+      "avg_depth_loss": 0.7430199831724167,
+      "avg_seg_loss": 0.9765414521098137,
+      "avg_normal_loss": 0.0008482237656911215
+    },
+    {
+      "round": 28,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.1577798426151276,
+            "depth": 0.8891578316688538,
+            "segmentation": 1.7845646440982819,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.74031563103199,
+            "depth": 1.0569110065698624,
+            "segmentation": 0.0,
+            "normal": 0.0015931874513626099
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.1798259019851685,
+            "depth": 0.8463535457849503,
+            "segmentation": 1.3227426409721375,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 1.02643683552742,
+            "depth": 0.0,
+            "segmentation": 1.4659205079078674,
+            "normal": 0.0009749084711074829
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3250032141804695,
+            "depth": 1.0806229263544083,
+            "segmentation": 0.0,
+            "normal": 0.0011661946773529053
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3875282108783722,
+            "depth": 0.0,
+            "segmentation": 1.2885877192020416,
+            "normal": 0.0013598352670669556
+          }
+        }
+      ],
+      "avg_total_loss": 0.802814939369758,
+      "avg_depth_loss": 0.6455075517296791,
+      "avg_seg_loss": 0.9769692520300547,
+      "avg_normal_loss": 0.0008490209778149923
+    },
+    {
+      "round": 29,
+      "clients": [
+        {
+          "client_id": 0,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.3,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.3759604692459106,
+            "depth": 1.0778509229421616,
+            "segmentation": 2.0715491771698,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 1,
+          "task_weights": {
+            "depth": 0.7,
+            "segmentation": 0.0,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 0.8014764189720154,
+            "depth": 1.144269347190857,
+            "segmentation": 0.0,
+            "normal": 0.0016262829303741455
+          }
+        },
+        {
+          "client_id": 2,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.7,
+            "normal": 0.0
+          },
+          "eval_results": {
+            "total_loss": 1.0589868426322937,
+            "depth": 1.0109688192605972,
+            "segmentation": 1.0795660242438316,
+            "normal": 0.0
+          }
+        },
+        {
+          "client_id": 3,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.7,
+            "normal": 0.3
+          },
+          "eval_results": {
+            "total_loss": 1.0180107951164246,
+            "depth": 0.0,
+            "segmentation": 1.4538627862930298,
+            "normal": 0.0010228604078292847
+          }
+        },
+        {
+          "client_id": 4,
+          "task_weights": {
+            "depth": 0.3,
+            "segmentation": 0.0,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.3081560581922531,
+            "depth": 1.0244994908571243,
+            "segmentation": 0.0,
+            "normal": 0.0011517107486724854
+          }
+        },
+        {
+          "client_id": 5,
+          "task_weights": {
+            "depth": 0.0,
+            "segmentation": 0.3,
+            "normal": 0.7
+          },
+          "eval_results": {
+            "total_loss": 0.4657067060470581,
+            "depth": 0.0,
+            "segmentation": 1.5491567254066467,
+            "normal": 0.0013709664344787598
+          }
+        }
+      ],
+      "avg_total_loss": 0.8380495483676592,
+      "avg_depth_loss": 0.7095980967084566,
+      "avg_seg_loss": 1.025689118852218,
+      "avg_normal_loss": 0.0008619700868924459
+    }
+  ]
+}

@@ -1,0 +1,47 @@
+general:
+  title: CIFAR10_Decentralized_FedAvg_CrossLoss
+  dataset: cifar10
+  # Decentralized architecture with FedAvg aggregation and cross-loss similarity
+  intra_communication: None
+  cross_communication: FedAvg
+  rounds: 30
+  result_folder: results
+  result_sub_folder: decentralized_experiments
+  seed: 42
+  backbone_layers: minus1
+
+setup:
+  dataset_fraction: 1.0
+  hca_alpha: 0.4
+  n_neighbors: 3
+
+  # Similarity computation method: cross_loss
+  similarity_method: cross_loss
+
+  # Aggregation method: fedavg (simple weighted average)
+  aggregation_method: fedavg
+
+  clients:
+    - AN_Cifar10_C0
+    - AN_Cifar10_C1
+    - AN_Cifar10_C2
+    - OB_Cifar10_C0
+    - OB_Cifar10_C1
+    - OB_Cifar10_C2
+
+  local_epochs: 3
+  learning_rate: 0.01  # Learning rate for CIFAR-10
+
+  task_configs:
+    Animals:
+      num_classes: 6
+      client_ids:
+        - AN_Cifar10_C0
+        - AN_Cifar10_C1
+        - AN_Cifar10_C2
+    Objects:
+      num_classes: 4
+      client_ids:
+        - OB_Cifar10_C0
+        - OB_Cifar10_C1
+        - OB_Cifar10_C2

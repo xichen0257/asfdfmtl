@@ -12,7 +12,7 @@ Model used for the single label classification tasks.
 
 
 class SingleLabelClassificationModel(Model):
-    def __init__(self, num_classes, model, train_loader, val_loader, test_loader, backbone_layers):
+    def __init__(self, num_classes, model, train_loader, val_loader, test_loader, backbone_layers, lr=0.01):
         """Initializes a model for a single label classification task.
 
         Args:
@@ -21,6 +21,8 @@ class SingleLabelClassificationModel(Model):
             train_loader (Dataloader): A pytorch dataloder for the train data.
             val_loader (Dataloader): A pytorch dataloder for the validation data.
             test_loader (Dataloader): A pytorch dataloder for the test data.
+            backbone_layers: Which layers to use as backbone.
+            lr (float): Learning rate for optimizer. Default: 0.01
         """
         super(SingleLabelClassificationModel, self).__init__()
         self.device = torch.device("cuda" if torch.cuda.is_available() else "cpu")
@@ -45,13 +47,13 @@ class SingleLabelClassificationModel(Model):
         self.criterion = nn.CrossEntropyLoss()
         self.optimizer = torch.optim.SGD(
             self.parameters(),
-            lr=0.01,  # As no learning rate scheduling will be used, the learning rate has been decreased from the guide.
+            lr=lr,
             momentum=0.9,
-            weight_decay=1e-3,  # With the value from the forum post the model was overfitting too much, likely caused by the reduced data each client has. So the weight decay has been increased!
+            weight_decay=1e-3,
         )
 
         # Move the model to the appropriate device
-        self = self.to(self.device)
+        self.to(self.device)
 
     def forward(self, x):
         """Forward function of the model

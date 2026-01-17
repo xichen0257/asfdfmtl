@@ -1,0 +1,104 @@
+# B2: Pure Gradient + Backbone-Only + HCA v2
+# Task Discovery Experiment 2: Pure gradient similarity with HCA aggregation
+#
+# NEW: HCA (Hyper Conflict-Averse) aggregation
+# Tests if HCA improves pure gradient methods
+#
+# Expected improvements over B1:
+# - Better handling of heterogeneous gradients
+# - 4-6% improvement over B1 weighted aggregation
+# - More stable convergence
+
+general:
+  title: "b2_pure_grad_hca_v2"
+  seed: 42
+  description: "B2 v2: Task discovery with pure gradient + backbone-only + HCA"
+
+data:
+  dataset: "nyuv2"
+  root_dir: "./data/nyuv2"
+  dataset_fraction: 1.0
+
+setup:
+  num_clients: 6
+  n_neighbors: 3
+  alpha: 0.0  # Pure gradient similarity (no task overlap)
+  aggregate_heads: false  # Backbone-only aggregation
+  task_threshold: 0.1
+  aggregation_method: "hca"  # NEW: HCA instead of weighted
+  hca_alpha: 0.7  # HCA conflict-averse hyperparameter
+
+  # Hard clustering: 2 clients per task (same as B1)
+  task_weights_per_client:
+    # C0-C1: depth only
+    - depth: 1.0
+      segmentation: 0.0
+      normal: 0.0
+
+    - depth: 1.0
+      segmentation: 0.0
+      normal: 0.0
+
+    # C2-C3: segmentation only
+    - depth: 0.0
+      segmentation: 1.0
+      normal: 0.0
+
+    - depth: 0.0
+      segmentation: 1.0
+      normal: 0.0
+
+    # C4-C5: normal only
+    - depth: 0.0
+      segmentation: 0.0
+      normal: 1.0
+
+    - depth: 0.0
+      segmentation: 0.0
+      normal: 1.0
+
+training:
+  num_rounds: 50
+  local_epochs: 5
+  batch_size: 4
+  learning_rate: 0.001
+  optimizer: "adam"
+
+  # Learning rate scheduler
+  lr_scheduler:
+    enabled: true
+    type: "cosine"
+    min_lr: 0.0001
+    warmup_rounds: 3
+
+  # Early stopping
+  early_stopping:
+    enabled: true
+    patience: 8  # Slightly more conservative than B1
+    min_delta: 0.003
+    restore_best_weights: true
+    verbose: true
+    mode: "min"
+
+model:
+  backbone: "resnet50"
+  pretrained: true
+  num_seg_classes: 13
+  out_size: [288, 384]
+
+output:
+  output_dir: "./results/nyuv2/b2_pure_grad_hca_v2"
+  save_checkpoints: true
+  checkpoint_frequency: 5
+  log_frequency: 1
+  save_metrics_every_round: true
+
+# Expected results:
+# - Training stops at Round 25-30
+# - Best loss: ~0.74-0.76 (vs ~0.78-0.79 in B1)
+# - Improvement over B1: 4-6%
+#
+# Research questions:
+# - Does HCA compensate for lack of task knowledge?
+# - Can HCA handle heterogeneous gradients better?
+# - What is the trade-off between HCA and weighted aggregation?

@@ -1,0 +1,96 @@
+# A2: Pairwise v2 - With Early Stopping & LR Scheduling
+# Multi-task learning with pairwise task combinations
+#
+# Improvements from FIXED version:
+# Early stopping implemented (patience=10, more conservative)
+# Learning rate scheduler (cosine annealing)
+# Expected to stop at Round 25-30 with ~14% improvement
+
+general:
+  title: "a2_pairwise_v2"
+  seed: 42
+  description: "A2 v2: Pairwise multi-task with early stopping and LR scheduler"
+
+data:
+  dataset: "nyuv2"
+  root_dir: "./data/nyuv2"
+  dataset_fraction: 1.0
+
+setup:
+  num_clients: 6
+  n_neighbors: 3
+  alpha: 0.5
+  aggregate_heads: true
+  task_threshold: 0.1
+  aggregation_method: "weighted"
+
+  # Pairwise task combinations
+  task_weights_per_client:
+    - depth: 0.7
+      segmentation: 0.3
+      normal: 0.0
+
+    - depth: 0.7
+      segmentation: 0.0
+      normal: 0.3
+
+    - depth: 0.3
+      segmentation: 0.7
+      normal: 0.0
+
+    - depth: 0.0
+      segmentation: 0.7
+      normal: 0.3
+
+    - depth: 0.3
+      segmentation: 0.0
+      normal: 0.7
+
+    - depth: 0.0
+      segmentation: 0.3
+      normal: 0.7
+
+training:
+  num_rounds: 50
+  local_epochs: 5
+  batch_size: 4
+  learning_rate: 0.001
+  optimizer: "adam"
+
+  # Learning rate scheduler (NEW)
+  lr_scheduler:
+    enabled: true
+    type: "cosine"
+    min_lr: 0.0001
+    warmup_rounds: 3
+
+  # Early stopping (NEW) - More conservative due to high variance
+  early_stopping:
+    enabled: true
+    patience: 10  # Longer patience for multi-task
+    min_delta: 0.002  # More sensitive threshold
+    restore_best_weights: true
+    verbose: true
+    mode: "min"
+
+model:
+  backbone: "resnet50"
+  pretrained: true
+  num_seg_classes: 13
+  out_size: [288, 384]
+
+output:
+  output_dir: "./results/nyuv2/a2_pairwise_v2"
+  save_checkpoints: true
+  checkpoint_frequency: 5
+  log_frequency: 1
+  save_metrics_every_round: true
+
+# Expected results:
+# - Training stops at Round 25-30 (vs 50 in FIXED)
+# - Best loss: ~0.705 (vs 0.8222 in FIXED)
+# - Improvement: ~14%
+# - Time saved: ~46%
+#
+# Investigation needed:
+# - High seg loss (1.0588 in FIXED) - multi-task interference?

@@ -1,0 +1,52 @@
+general:
+  title: CIFAR10_Hybrid_100_Switch6
+  dataset: cifar10
+  # Hybrid strategy: FedAvg (rounds 1-5) - HCA (rounds 6-10)
+  # 100% dataset for fair comparison with FedAvg baseline (30.31%)
+  intra_communication: None
+  cross_communication: Hybrid_Switch6
+  rounds: 30
+  result_folder: results
+  result_sub_folder: decentralized_experiments
+  seed: 42
+  backbone_layers: minus1
+
+setup:
+  dataset_fraction: 1.0  # Full dataset (100%)
+  hca_alpha: 0.4
+  n_neighbors: 3
+
+  # Similarity method: gradient cosine similarity
+  similarity_method: gradient
+
+  # Hybrid strategy: FedAvg - HCA
+  aggregation_method: hybrid
+  aggregation_switch_round: 6  # Switch to HCA starting from round 6
+
+  # Client configuration
+  clients:
+    - AN_Cifar10_C0
+    - AN_Cifar10_C1
+    - AN_Cifar10_C2
+    - OB_Cifar10_C0
+    - OB_Cifar10_C1
+    - OB_Cifar10_C2
+
+  # Training configuration
+  local_epochs: 3
+  learning_rate: 0.01  # Learning rate for CIFAR-10
+
+  # Task configuration
+  task_configs:
+    Animals:
+      num_classes: 6
+      client_ids:
+        - AN_Cifar10_C0
+        - AN_Cifar10_C1
+        - AN_Cifar10_C2
+    Objects:
+      num_classes: 4
+      client_ids:
+        - OB_Cifar10_C0
+        - OB_Cifar10_C1
+        - OB_Cifar10_C2

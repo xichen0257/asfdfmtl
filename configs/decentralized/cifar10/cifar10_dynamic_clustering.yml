@@ -1,0 +1,53 @@
+general:
+  title: CIFAR10_Decentralized_DynamicSoftClustering_Full
+  dataset: cifar10
+  # Decentralized architecture with dynamic soft clustering
+  intra_communication: None  # No intra-task aggregation (dynamic clustering replaces static groups)
+  cross_communication: HCA  # HCA used for local aggregation
+  rounds: 30  # Full experiment: 10 rounds
+  result_folder: results
+  result_sub_folder: decentralized_experiments
+  seed: 42
+  backbone_layers: minus1
+
+setup:
+  dataset_fraction: 1.0  # Use full dataset for complete experiment
+  hca_alpha: 0.4  # HCA conflict-averse parameter
+  n_neighbors: 3  # Soft clustering: each client aggregates with 3 most similar neighbors
+
+  # Similarity computation method: gradient, parameter, cross_loss, task_prior
+  similarity_method: cross_loss
+  similarity_eval_batches: 10  # Number of batches for cross-loss evaluation
+
+  # Aggregation method: hca (Hyper Conflict-Averse) or fedavg (simple weighted average)
+  aggregation_method: fedavg
+
+  # All clients (no predefined task groups - dynamic clustering will form groups)
+  clients:
+    # Animal task clients
+    - AN_Cifar10_C0
+    - AN_Cifar10_C1
+    - AN_Cifar10_C2
+    # Object task clients
+    - OB_Cifar10_C0
+    - OB_Cifar10_C1
+    - OB_Cifar10_C2
+
+  # Training configuration
+  local_epochs: 3  # 3 epochs per round for full training
+  learning_rate: 0.01  # Learning rate for CIFAR-10
+
+  # Task configuration (for data loading only, not for static grouping)
+  task_configs:
+    Animals:
+      num_classes: 6
+      client_ids:
+        - AN_Cifar10_C0
+        - AN_Cifar10_C1
+        - AN_Cifar10_C2
+    Objects:
+      num_classes: 4
+      client_ids:
+        - OB_Cifar10_C0
+        - OB_Cifar10_C1
+        - OB_Cifar10_C2

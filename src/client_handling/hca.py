@@ -89,6 +89,25 @@ def get_ca_delta(flatten_delta_list, alpha, rescale=1):
     print(alpha)
     N = len(flatten_delta_list)
     grads = torch.stack(flatten_delta_list).t()  # [d , N]
+
+    # Check for NaN or Inf in gradients
+    if torch.isnan(grads).any() or torch.isinf(grads).any():
+        print("ERROR: NaN or Inf detected in gradients before HCA aggregation")
+        return torch.zeros_like(flatten_delta_list[0])
+
+    # Compute gradient norms for numerical stability check
+    grad_norms = torch.stack([g.norm() for g in flatten_delta_list])
+    max_norm = grad_norms.max()
+    min_norm = grad_norms.min()
+
+    # Check for extreme gradient norm ratios (numerical instability indicator)
+    if max_norm > 0 and (max_norm / (min_norm + 1e-10)) > 100:
+        print(f"WARNING: Extreme gradient norm ratio detected: {max_norm:.2e}/{min_norm:.2e}")
+        print(f"  Gradient norms: {grad_norms.tolist()}")
+        # Normalize gradients to prevent numerical issues - use max instead of mean for stronger effect
+        grads = grads / (grad_norms.max() + 1e-8)
+        print("  Applied gradient normalization for stability")
+
     GG = grads.t().mm(grads).cpu()  # [N, N]
     assert not torch.isnan(GG).any(), "NaN detected in GG matrix"
     g0_norm = (GG.mean() + 1e-8).sqrt()
@@ -108,19 +127,36 @@ def get_ca_delta(flatten_delta_list, alpha, rescale=1):
         ).sum()
 
     res = minimize(objfn, x_start, bounds=bnds, constraints=cons)
+
+    # Check if optimization succeeded
+    if not res.success:
+        print(f"WARNING: Optimization failed: {res.message}")
+        print("  Falling back to simple averaging")
+        return grads.mean(1)
+
     ww = torch.Tensor(res.x).to(grads.device)
-    assert not torch.isnan(ww).any(), "NaN detected in optimization result"
+
+    # Check for NaN in optimization weights
+    if torch.isnan(ww).any() or torch.isinf(ww).any():
+        print("ERROR: NaN or Inf in optimization weights, using simple averaging")
+        return grads.mean(1)
 
     gw = (grads * ww.reshape(1, -1)).sum(1)
     gw_norm = gw.norm()
     lmbda = c / (gw_norm + 1e-8)
     g = grads.mean(1) + lmbda * gw
+
     if rescale == 0:
         final_update = g
     elif rescale == 1:
-        final_update = g / (1 + alpha**2)
+        final_update = g / (1 + alpha**2 + 0.5)
     else:
         final_update = g / (1 + alpha)
+
+    # Final NaN check before returning
+    if torch.isnan(final_update).any() or torch.isinf(final_update).any():
+        print("ERROR: NaN or Inf in final update, using simple averaging")
+        return grads.mean(1)
 
     return final_update
 
@@ -211,18 +247,50 @@ def conflict_averse(curr_backbones_dicts, prev_backbones_dicts, ca_c):
     flatten_encoder_delta = flatten_param(encoder_delta_list, enc_layers)
     del encoder_delta_list
 
-    # Solve for aggregated conflict-averse delta
-    flatten_delta_update = get_ca_delta(flatten_encoder_delta, ca_c)  # flattened tensor
+    # Check if all deltas are zero (happens in first round when prev_backbone is None)
+    all_deltas_zero = all(torch.norm(delta) < 1e-10 for delta in flatten_encoder_delta)
+
+    if all_deltas_zero:
+        # Skip HCA aggregation, just return current backbones unchanged
+        print("Warning: All gradients are zero, skipping HCA aggregation")
+        flatten_delta_update = torch.zeros_like(flatten_encoder_delta[0])
+    else:
+        # Solve for aggregated conflict-averse delta
+        flatten_delta_update = get_ca_delta(flatten_encoder_delta, ca_c)  # flattened tensor
 
     for idx, client_encoder in enumerate(flatten_last_encoder):
-        client_encoder.add_(flatten_encoder_delta[idx] + 1 * flatten_delta_update)
+        update = flatten_encoder_delta[idx] + 1 * flatten_delta_update
+
+        # Gradient clipping to prevent explosion
+        max_update_norm = 5.0
+        update_norm = update.norm()
+        if update_norm > max_update_norm:
+            update = update * (max_update_norm / update_norm)
+            print(f"[Client {idx}] Clipping update norm from {update_norm:.2f} to {max_update_norm}")
+
+        # Check for NaN before applying update
+        if torch.isnan(update).any():
+            print(f"Warning: NaN detected in update for client {idx}, skipping update")
+            continue
+        client_encoder.add_(update)
     flatten_new_encoders = flatten_last_encoder
 
-    new_encoders = unflatten_param(flatten_new_encoders, enc_shapes, enc_layers)
+    # Unflatten with original keys to preserve parameter structure
+    new_encoders_with_correct_keys = []
+    for model_idx in range(len(flatten_new_encoders)):
+        start = 0
+        param_dict = {}
+        for original_key, shape in zip(encoder_keys, enc_shapes):
+            end = start + int(np.prod(shape))
+            param_dict[original_key] = flatten_new_encoders[model_idx][start:end].reshape(shape)
+            start = end
+        new_encoders_with_correct_keys.append(param_dict)
 
-    for encoder in new_encoders:
-        # Update the dictionary with new keys in place
-        for key in list(encoder.keys()):
-            encoder[f"backbone.{key}"] = encoder.pop(key)
+    # Final NaN check
+    for idx, encoder in enumerate(new_encoders_with_correct_keys):
+        for key, param in encoder.items():
+            if torch.isnan(param).any():
+                print(f"ERROR: NaN detected in encoder {idx}, key {key}")
+                raise ValueError(f"NaN in aggregated parameters for client {idx}")
 
-    return new_encoders
+    return new_encoders_with_correct_keys

@@ -1,0 +1,123 @@
+# Pascal Context B1-CrossLoss: Pure Gradient + Cross-Loss Similarity + Backbone-Only + Weighted
+# Supplementary Experiment: Testing if cross-loss similarity can stabilize backbone-only aggregation
+#
+# Motivation:
+#   - B1 (gradient similarity) failed on Pascal Context due to gradient explosion
+#   - This experiment tests if cross-loss similarity (based on actual model performance)
+#     can avoid gradient conflicts and stabilize training
+#
+# Hypothesis:
+#   - Cross-loss similarity directly measures task compatibility through validation loss
+#   - It may provide more stable neighbor selection than gradient similarity
+#   - Expected: Better than B1-gradient, but still may struggle compared to B4 (full aggregation)
+#
+# Tasks (Maninis et al. CVPR 2019):
+#   - Semantic Segmentation (59 classes) - ORIGINAL annotations
+#   - Human Parts Segmentation (15 classes) - ORIGINAL annotations
+#   - Edge Detection - ORIGINAL annotations
+#
+# Dataset: 4,998 train + 5,105 val images
+# Download: https://data.vision.ee.ethz.ch/kmaninis/share/MTL/PASCAL_MT.tgz
+
+general:
+  title: "pascal_b1_crossloss"
+  seed: 42
+  description: "Pascal B1-CrossLoss: Task discovery with cross-loss similarity + backbone-only + weighted"
+
+data:
+  dataset: "pascal_context"
+  root_dir: "./data/pascal_context"
+  dataset_fraction: 1.0
+
+setup:
+  num_clients: 6
+  n_neighbors: 3
+
+  # Cross-loss similarity (instead of gradient similarity)
+  similarity_method: "cross_loss"  # NEW: Use cross-validation loss based similarity
+  similarity_eval_batches: 10      # Number of validation batches for cross-loss evaluation
+
+  alpha: 0.0  # Not used with cross_loss, but kept for compatibility
+  aggregate_heads: false  # Backbone-only aggregation (same as B1)
+  task_threshold: 0.1
+  aggregation_method: "weighted"
+
+  # Hard clustering: 2 clients per task (same as A1 and B1)
+  task_weights_per_client:
+    # C0-C1: semantic segmentation only
+    - segmentation: 1.0
+      human_parts: 0.0
+      edge: 0.0
+
+    - segmentation: 1.0
+      human_parts: 0.0
+      edge: 0.0
+
+    # C2-C3: human parts only
+    - segmentation: 0.0
+      human_parts: 1.0
+      edge: 0.0
+
+    - segmentation: 0.0
+      human_parts: 1.0
+      edge: 0.0
+
+    # C4-C5: edge detection only
+    - segmentation: 0.0
+      human_parts: 0.0
+      edge: 1.0
+
+    - segmentation: 0.0
+      human_parts: 0.0
+      edge: 1.0
+
+training:
+  num_rounds: 50
+  local_epochs: 5
+  batch_size: 8
+  learning_rate: 0.001
+  optimizer: "adam"
+
+  # Gradient clipping for numerical stability
+  gradient_clip_norm: 1.0
+
+  # Learning rate scheduler
+  lr_scheduler:
+    enabled: true
+    type: "cosine"
+    min_lr: 0.0001
+    warmup_rounds: 3
+
+  # Early stopping - Same as B1 updated config
+  early_stopping:
+    enabled: true
+    patience: 10
+    min_delta: 0.002
+    restore_best_weights: true
+    verbose: true
+    mode: "min"
+
+model:
+  backbone: "resnet50"
+  pretrained: true
+  num_seg_classes: 59  # Semantic segmentation: 59 classes
+  num_human_parts_classes: 6  # 6 body parts (head, torso, larm, rarm, lleg, rleg)
+  # Edge detection: binary output (1 channel)
+  out_size: [288, 384]
+
+output:
+  output_dir: "./results/pascal_context/b1_crossloss"
+  save_checkpoints: true
+  checkpoint_frequency: 5
+  log_frequency: 1
+  save_metrics_every_round: true
+
+# Research Questions:
+# 1. Can cross-loss similarity stabilize backbone-only aggregation?
+# 2. How does cross-loss compare to gradient similarity in task discovery?
+# 3. Is the B1 failure due to similarity computation or aggregation scope?
+#
+# Expected Outcomes:
+# - If successful: Cross-loss similarity is more robust than gradient similarity
+# - If still fails: Confirms that backbone-only aggregation is the bottleneck
+# - Training should stop at Round 20-25 (if stable)

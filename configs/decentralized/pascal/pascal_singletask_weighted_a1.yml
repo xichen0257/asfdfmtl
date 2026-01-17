@@ -1,0 +1,105 @@
+# Pascal Context A1: SingleTask with Early Stopping & LR Scheduling
+# Baseline for single-task multi-task learning on Pascal Context dataset
+#
+# Same configuration as NYU V2 A1, adapted for Pascal Context
+#
+# Tasks (based on Maninis et al. CVPR 2019 multi-task version):
+#   - Semantic Segmentation (59 classes) - ORIGINAL annotations
+#   - Human Parts Segmentation (15 classes) - ORIGINAL annotations
+#   - Edge Detection - ORIGINAL annotations
+#
+# All three tasks use original annotations (not distilled) for highest quality.
+# Dataset: 4,998 train + 5,105 val images
+# Code/annotations: https://github.com/facebookresearch/astmt
+# Download: https://data.vision.ee.ethz.ch/kmaninis/share/MTL/PASCAL_MT.tgz
+
+general:
+  title: "pascal_a1_singletask"
+  seed: 42
+  description: "Pascal A1: SingleTask with early stopping and LR scheduler"
+
+data:
+  dataset: "pascal_context"
+  root_dir: "./data/pascal_context"
+  dataset_fraction: 1.0
+
+setup:
+  num_clients: 6
+  n_neighbors: 3
+  alpha: 0.5
+  aggregate_heads: true
+  task_threshold: 0.1
+  aggregation_method: "weighted"
+
+  # Hard clustering: 2 clients per task
+  # Using original annotations only for highest quality
+  task_weights_per_client:
+    # C0-C1: semantic segmentation only
+    - segmentation: 1.0
+      human_parts: 0.0
+      edge: 0.0
+
+    - segmentation: 1.0
+      human_parts: 0.0
+      edge: 0.0
+
+    # C2-C3: human parts only
+    - segmentation: 0.0
+      human_parts: 1.0
+      edge: 0.0
+
+    - segmentation: 0.0
+      human_parts: 1.0
+      edge: 0.0
+
+    # C4-C5: edge detection only
+    - segmentation: 0.0
+      human_parts: 0.0
+      edge: 1.0
+
+    - segmentation: 0.0
+      human_parts: 0.0
+      edge: 1.0
+
+training:
+  num_rounds: 50
+  local_epochs: 5
+  batch_size: 8
+  learning_rate: 0.001
+  optimizer: "adam"
+
+  # Learning rate scheduler
+  lr_scheduler:
+    enabled: true
+    type: "cosine"  # cosine annealing
+    min_lr: 0.0001  # 10% of initial LR
+    warmup_rounds: 3  # 3 rounds warmup
+
+  # Early stopping
+  early_stopping:
+    enabled: true
+    patience: 8  # Stop if no improvement for 8 rounds
+    min_delta: 0.003  # Minimum improvement threshold
+    restore_best_weights: true
+    verbose: true
+    mode: "min"  # Monitor loss (lower is better)
+
+model:
+  backbone: "resnet50"
+  pretrained: true
+  num_seg_classes: 59  # Semantic segmentation: 59 classes
+  num_human_parts_classes: 6  # Human parts segmentation: 6 body parts (head, torso, larm, rarm, lleg, rleg)
+  # Edge detection: binary output (1 channel)
+  out_size: [288, 384]
+
+output:
+  output_dir: "./results/pascal_context/a1_singletask"
+  save_checkpoints: true
+  checkpoint_frequency: 5
+  log_frequency: 1
+  save_metrics_every_round: true
+
+# Expected results:
+# - Establish baseline performance for Pascal Context
+# - Compare with NYU V2 A1 to assess dataset difficulty
+# - Training should stop at Round 30-35 due to early stopping

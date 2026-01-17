@@ -1,126 +1,371 @@
-# Source Code for the Experiments conducted as part of the Master Thesis: A Solution for Decentralized Federated Multi-Task Learning
-**Nicolas Kohler, 2024, University of Zurich, Department of Informatics (IFI), Communication Systems Group (CSG)**
+# Dynamic Task Clustering and Aggregation for Decentralized Federated Multitask Learning
 
-The provided source code simulates a Federated Learning environment on one machine, to test the proposed Federated Multi-Task framework. The aim is to investigate how the framework handles different client heterogeneity types and not to create a proper federated environment. For this, a total of six experiments are run on two different dataset, CIFAR-10 and CelebA. Three of those focus on class label heterogenity, while the other three investigate task heterogenity. Eventually, these six experiments required the training of about 100 models.
+**Xi Chen, 2026, University of Zurich, Department of Informatics (IFI), Communication Systems Group (CSG)**
 
-All trained clients, plots, tables and used configs are accessible here: [https://drive.google.com/drive/folders/1Au6neZziuD0q4_pd3T8qO6-kMceEvVpK?usp=sharing](https://drive.google.com/drive/folders/1Au6neZziuD0q4_pd3T8qO6-kMceEvVpK?usp=sharing)
+This repository contains the source code for implementing and evaluating a decentralized federated multi-task learning (FMTL) framework. The framework addresses client heterogeneity through dynamic task clustering and adaptive aggregation strategies, operating in a fully decentralized peer-to-peer architecture without requiring a central server.
+
+## Key Features
+
+- **Decentralized Architecture**: Peer-to-peer communication without central server coordination
+- **Dynamic Task Clustering**: Adaptive soft clustering based on task similarity metrics
+- **Multi-Task Support**: Handles both single-task (CIFAR-10) and multi-task scenarios (NYU Depth V2, Pascal Context)
+- **Flexible Aggregation**: Multiple aggregation strategies including FedAvg, HCA, gradient-based, and cross-loss similarity
+- **Configurable Learning**: All hyperparameters (learning rate, epochs, clustering parameters) managed through YAML configs
 
 ## Acknowledgement
-Two main inspirations for the framework were FedPer and FedHCA2:
 
-- **FedHCA2**: Lu, Y., Huang, S., Yang, Y., Sirejiding, S., Ding, Y., & Lu, H. (2023). Towards Hetero-Client Federated Multi-Task Learning. arXiv preprint arXiv:2311.13250.
+This work builds upon and extends previous research in federated multi-task learning:
 
-- **FedPer**: Arivazhagan, M. G., Aggarwal, V., Singh, A. K., & Choudhary, S. (2019). Federated learning with personalization layers. arXiv preprint arXiv:1912.00818.
+### Theoretical Foundation
+- **ColNet**: Feng, C., Kohler, N. F., Wang, Z., Niu, W., Huertas Celdran, A., Bovet, G., & Stiller, B. (2025). ColNet: Collaborative Optimization in Decentralized Federated Multi-task Learning Systems. arXiv preprint arXiv:2501.10347. [https://arxiv.org/abs/2501.10347](https://arxiv.org/abs/2501.10347)
+  - Provides the theoretical foundation for task similarity-based aggregation in decentralized FMTL
+
+### Code Base
+- **Nicolas Kohler's FMTL Framework**: [https://github.com/nicolas1a2b/asfdfmtl](https://github.com/nicolas1a2b/asfdfmtl)
+  - This project is forked from and extends Nicolas Kohler's centralized federated multi-task learning implementation
+  - Extended from centralized server-client architecture to fully decentralized peer-to-peer architecture
 
 ## Installation
-### Required Steps
-1) Make sure Conda is installed: [https://anaconda.org/anaconda/conda](https://anaconda.org/anaconda/conda)
-2) Create the conda environment. Specifications are located in the environment.yml file.
-    ```
-    conda env create -f environment.yml
-    ```
-3) Activate Environment
-    ```
-    conda activate asfdfmtl
-    ```
-4) If you want to train on a **GPU** install CUDA support. For this to work you need the appropriate hardware and CUDA toolkit. More information can be found here: [https://developer.nvidia.com/cuda-toolkit](https://developer.nvidia.com/cuda-toolkit). Note that training on a GPU is highly recommended - Code was **not** tested on CPU!
-    ```
-    conda install pytorch-cuda=12.1 -c nvidia
-    ```
-5) If installed, CUDA can be tested with the following command.
-    ```
-    nvidia-smi
-    ```
 
-### Testing the Installation.
-To test whether the installation was succesful one can run the tiny_cifar-10 configs. These experiments only include a few epochs and aggregation rounds. As such, the required computation time is limited. However, they do not provide any insights and are solely for testing purposes. Please see the tiny_cifar-10 configs for additional comments on the parameter configuration. Once the federation has been run, the "cross_configuration_plots_and_tables" results can be compared with the figures in (figures/installation_check). If the results match, full reproducibility is likely in the other experiments.
+### Prerequisites
+- CUDA-capable GPU (strongly recommended, code not tested on CPU)
+- CUDA Toolkit 12.1 or higher
+- Conda package manager
 
-Note that upon running the code snippet a data folder, checkpoint folder and results folder will be automatically created.
+### Environment Setup
 
-#### Tiny Cifar-10
-- Run the tiny federation.
-    ```
-    python src/run.py --configs_folder configs/tiny_cifar-10 --configs tiny_cifar-10_none_none.yml tiny_cifar-10_fedper_none.yml tiny_cifar-10_fedper_fedper.yml tiny_cifar-10_fedper_hca.yml 
-    ```
-- Visualize the tiny federation.
-    ```
-    python src/plot.py --dataset cifar10 --folder tiny_cifar-10 --cross_configuration_plots_and_tables --vag --vag_inputs Tiny_Cifar-10_None_None Tiny_Cifar-10_FedPer_None Tiny_Cifar-10_FedPer_FedPer Tiny_Cifar-10_FedPer_HCA
-    ```
-- Running this tiny experimental setup on a GeForce 3080 only takes a couple of minutes and is great to quickly test whether or not the installation was succesfull. As such, it does **NOT** represent the actual results. The actual results of the thesis are located here: [https://drive.google.com/drive/folders/1Au6neZziuD0q4_pd3T8qO6-kMceEvVpK?usp=sharing](https://drive.google.com/drive/folders/1Au6neZziuD0q4_pd3T8qO6-kMceEvVpK?usp=sharing)
+1. **Install Conda** (if not already installed):
+   - Download from [https://anaconda.org/anaconda/conda](https://anaconda.org/anaconda/conda)
 
-## Reproducing the Experiments
-All the experiments discussed in the thesis made use of the provided configs and were trained on a GeForce GRTX 3080. More information about reproducibility can be found in the "Testing the Installation" section above and on PyTorch: 
-[https://pytorch.org/docs/stable/notes/randomness.html](https://pytorch.org/docs/stable/notes/randomness.html)
+2. **Create the conda environment**:
+   ```bash
+   conda env create -f environment.yml
+   ```
 
-Two datasets were used: CIFAR-10 and CelebA. These datasets are automatically downloaded upon code execution.
-### CIFAR-10 - Class Label Heterogenity
-The CIFAR-10 dataset is used to conduct single label image classification tasks. To model class label heterogenity, two groups of clients were defined.
-One group focuses on classifying animals, while the other is tasked with classifying objects. On this dataset, 3 different experiments, that in total required the training of 10 federations (resulting in 60 models), were conducted. For details about the specific setups, please see the respective config files.
-#### CIFAR-10 with Different Aggregation Schemes
-This experiment compares the proposed framework with pure local training, backbone averaging within the taskgroup, as well as with backbone averaging within and across task groups. (Approx 3h on GeForce 3080)
-- Run the federation:
-    ```
-    python src/run.py --configs_folder configs/cifar-10 --configs cifar-10_none_none.yml cifar-10_fedper_none.yml cifar-10_fedper_fedper.yml cifar-10_fedper_hca.yml 
-    ```
-- Visualize the results:
-    ```
-    python src/plot.py --dataset cifar10 --folder cifar-10 --cross_configuration_plots_and_tables --vag --vag_inputs  CIFAR-10_None_None CIFAR-10_Fedper_None CIFAR-10_Fedper_Fedper CIFAR-10_Fedper_HCA
-    ```
+3. **Activate the environment**:
+   ```bash
+   conda activate asfdfmtl
+   ```
 
-### CIFAR-10 With Varying Backbone Layers
-This experiment runs various configurations of the proposed framework, with varying the backbone/head split. (Approx 2h on GeForce 3080)
-- Run the federation:
-    ```
-    python src/run.py --configs_folder configs/cifar-10_vbl --configs cifar-10_fedper_hca_bl-0.yml cifar-10_fedper_hca_bl-1.yml cifar-10_fedper_hca_bl-2.yml
-    ```
-- Visualize the results:
-    ```
-    python src/plot.py --dataset cifar10 --folder cifar-10_vbl --cross_configuration_plots_and_tables --vbl --vbl_inputs CIFAR-10_FedPer_HCA_BL-0 CIFAR-10_Fedper_HCA_BL-1 CIFAR-10_FedPer_HCA_BL-2
-    ```
+4. **Verify CUDA installation**:
+   ```bash
+   nvidia-smi
+   python -c "import torch; print(f'CUDA available: {torch.cuda.is_available()}')"
+   ```
 
-### CIFAR-10 With Varying Epochs per Round
-This experiment runs various configurations of the proposed framework, with varying amounts of epochs between aggregation rounds. (Approx 2h on GeForce 3080)
-- Run the federation:
-    ```
-    python src/run.py --configs_folder configs/cifar-10_vepr --configs cifar-10_fedper_hca_2epr.yml cifar-10_fedper_hca_3epr.yml cifar-10_fedper_hca_5epr.yml
-    ```
-- Visualize the results:
-    ```
-    python src/plot.py --dataset cifar10 --folder cifar-10_vepr --cross_configuration_plots_and_tables --vepr --vepr_inputs CIFAR-10_FedPer_HCA_2epr CIFAR-10_FedPer_HCA_3epr CIFAR-10_FedPer_HCA_5epr
-    ```
-### CelebA
-The CelebA dataset is used to conduct multi-label image classification tasks, as well as face landmark point detection tasks.
-The resulting two task groups, model task heterogenity. On this dataset, 3 different experiments, that in total required the training of 10 federations (resulting in 60 models), were conducted. To save on computing time, the experiments use only a subset of the CelebA dataset. For details about the specific setups, please see the respective config files.
+## Datasets
 
-#### CelebA-10 with Different Aggregation Schemes
-This experiment compares the proposed framework with pure local training, backbone averaging within the taskgroup, as well as with backbone averaging within and across task groups. (Approx 4h on GeForce 3080)
-- Run the federation:
-    ```
-    python src/run.py --configs_folder configs/celeba --configs celeba_none_none.yml celeba_fedper_none.yml celeba_fedper_fedper.yml celeba_fedper_hca.yml
-    ```
-- Visualize the results:
-    ```
-    python src/plot.py --dataset celeba --folder celeba --cross_configuration_plots_and_tables --vag --vag_inputs CelebA_None_None CelebA_FedPer_None CelebA_FedPer_FedPer CelebA_FedPer_HCA
-    ```
+The framework supports three datasets, which are automatically downloaded on first run:
 
-#### CelebA With Varying Backbone Layers
-This experiment runs various configurations of the proposed framework, with varying the backbone/head split. (Approx 3h on GeForce 3080)
-- Run the federation:
-    ```
-    python src/run.py --configs_folder configs/celeba_vbl --configs celeba_fedper_hca_bl-0.yml celeba_fedper_hca_bl-1.yml celeba_fedper_hca_bl-2.yml
-    ```
-- Visualize the results:
-    ```
-    python src/plot.py --dataset celeba --folder celeba_vbl --cross_configuration_plots_and_tables --vbl --vbl_inputs CelebA_FedPer_HCA_BL-0 CelebA_FedPer_HCA_BL-1 CelebA_FedPer_HCA_BL-2
-    ```
+### 1. CIFAR-10 (Single-Label Classification)
+- **Tasks**: Animal classification (6 classes) and Object classification (4 classes)
+- **Heterogeneity Type**: Class label distribution heterogeneity
+- **Clients**: 6 clients (3 per task group)
+- **Download**: Automatic via torchvision
 
-#### CelebA With Varying Epochs per Round
-This experiment runs various configurations of the proposed framework, with varying amounts of epochs between aggregation rounds. (Approx 3h on GeForce 3080)
-- Run the federation:
-    ```
-    python src/run.py --configs_folder configs/celeba_vepr --configs celeba_fedper_hca_2epr.yml celeba_fedper_hca_3epr.yml celeba_fedper_hca_5epr.yml
-    ```
-- Visualize the results:
-    ```
-    python src/plot.py --dataset celeba --folder celeba_vepr --cross_configuration_plots_and_tables --vepr --vepr_inputs CelebA_FedPer_HCA_2epr CelebA_FedPer_HCA_3epr CelebA_FedPer_HCA_5epr
-    ```
+### 2. NYU Depth V2 (Multi-Task Dense Prediction)
+- **Tasks**: Depth estimation, semantic segmentation (13 classes), surface normal prediction
+- **Heterogeneity Type**: Task heterogeneity
+- **Clients**: 6 clients with varying task weights
+- **Download**: Automatic on first run
+- **Resolution**: 288x384
+- **Dataset Link**: [https://cs.nyu.edu/~fergus/datasets/nyu_depth_v2.html](https://cs.nyu.edu/~fergus/datasets/nyu_depth_v2.html)
+
+### 3. Pascal Context (Multi-Task Dense Prediction)
+- **Tasks**: Semantic segmentation (59 classes), human parts segmentation (6 classes), edge detection
+- **Heterogeneity Type**: Task heterogeneity
+- **Clients**: 6 clients with varying task weights
+- **Download**: Automatic on first run
+- **Resolution**: 288x384
+- **Dataset Link**: [https://cs.stanford.edu/~roozbeh/pascal-context/](https://cs.stanford.edu/~roozbeh/pascal-context/)
+
+## Running Experiments
+
+### CIFAR-10 Experiments
+
+All CIFAR-10 experiments use single-label classification with ResNet-18 backbone.
+
+#### 1. FedAvg with Gradient Similarity
+```bash
+python src/decentralized/run_decentralized.py \
+    --config configs/decentralized/cifar10/cifar10_fedavg_gradient.yml
+```
+
+#### 2. FedAvg with Cross-Loss Similarity
+```bash
+python src/decentralized/run_decentralized.py \
+    --config configs/decentralized/cifar10/cifar10_fedavg_crossloss.yml
+```
+
+#### 3. Dynamic Clustering
+```bash
+python src/decentralized/run_decentralized.py \
+    --config configs/decentralized/cifar10/cifar10_dynamic_clustering.yml
+```
+
+#### 4. Hybrid Strategy (Switch at Round 4/6/8)
+```bash
+# Switch from intra-task to cross-task at round 4
+python src/decentralized/run_decentralized.py \
+    --config configs/decentralized/cifar10/cifar10_hybrid_switch_round4.yml
+
+# Switch at round 6
+python src/decentralized/run_decentralized.py \
+    --config configs/decentralized/cifar10/cifar10_hybrid_switch_round6.yml
+
+# Switch at round 8
+python src/decentralized/run_decentralized.py \
+    --config configs/decentralized/cifar10/cifar10_hybrid_switch_round8.yml
+```
+
+#### 5. Hybrid with Delayed Start
+```bash
+python src/decentralized/run_decentralized.py \
+    --config configs/decentralized/cifar10/cifar10_hybrid_delayed_start.yml
+```
+
+### NYU Depth V2 Experiments
+
+All NYU-V2 experiments use ResNet-50 backbone with multi-task heads.
+
+#### A1: Single-Task Baseline with Weighted Aggregation
+```bash
+python src/decentralized/run_multitask_decentralized.py \
+    --config configs/decentralized/nyuv2/nyuv2_singletask_weighted_a1.yml
+```
+
+#### A2: Pairwise Task Combination
+```bash
+python src/decentralized/run_multitask_decentralized.py \
+    --config configs/decentralized/nyuv2/nyuv2_pairwise_weighted_a2.yml
+```
+
+#### B1: Gradient Similarity (Backbone Only)
+```bash
+python src/decentralized/run_multitask_decentralized.py \
+    --config configs/decentralized/nyuv2/nyuv2_singletask_gradient_backbone_b1.yml
+```
+
+#### B2: HCA Aggregation (Backbone Only)
+```bash
+python src/decentralized/run_multitask_decentralized.py \
+    --config configs/decentralized/nyuv2/nyuv2_singletask_hca_backbone_b2.yml
+```
+
+#### B3: HCA Aggregation (Full Model)
+```bash
+python src/decentralized/run_multitask_decentralized.py \
+    --config configs/decentralized/nyuv2/nyuv2_singletask_hca_full_b3.yml
+```
+
+#### B4: Multi-Task with Gradient Similarity
+```bash
+python src/decentralized/run_multitask_decentralized.py \
+    --config configs/decentralized/nyuv2/nyuv2_multitask_gradient_b4.yml
+```
+
+#### C1: Dynamic Clustering
+```bash
+python src/decentralized/run_multitask_decentralized.py \
+    --config configs/decentralized/nyuv2/nyuv2_singletask_dynamic_c1.yml
+```
+
+#### C2: Hierarchical Clustering
+```bash
+python src/decentralized/run_multitask_decentralized.py \
+    --config configs/decentralized/nyuv2/nyuv2_singletask_hierarchical_c2.yml
+```
+
+### Pascal Context Experiments
+
+All Pascal Context experiments use ResNet-50 backbone with multi-task heads.
+
+#### A1: Single-Task Baseline
+```bash
+python src/decentralized/run_multitask_decentralized.py \
+    --config configs/decentralized/pascal/pascal_singletask_weighted_a1.yml
+```
+
+#### A2: Pairwise Task Combination
+```bash
+python src/decentralized/run_multitask_decentralized.py \
+    --config configs/decentralized/pascal/pascal_pairwise_weighted_a2.yml
+```
+
+#### B1: Cross-Loss Similarity
+```bash
+python src/decentralized/run_multitask_decentralized.py \
+    --config configs/decentralized/pascal/pascal_singletask_crossloss_b1.yml
+```
+
+#### B1: Gradient Similarity (Backbone Only)
+```bash
+python src/decentralized/run_multitask_decentralized.py \
+    --config configs/decentralized/pascal/pascal_singletask_gradient_backbone_b1.yml
+```
+
+#### B4: Multi-Task with Gradient Similarity
+```bash
+python src/decentralized/run_multitask_decentralized.py \
+    --config configs/decentralized/pascal/pascal_multitask_gradient_b4.yml
+```
+
+## Configuration Files
+
+All experiments are configured through YAML files located in `configs/decentralized/`. Each configuration specifies:
+
+- **General settings**: Title, dataset, number of rounds, seed
+- **Setup parameters**: Number of neighbors, similarity method, aggregation method
+- **Training parameters**: Local epochs, learning rate, batch size
+- **Task configuration**: Task weights per client, number of classes
+
+### Example Configuration Structure
+
+```yaml
+general:
+  title: "Experiment_Name"
+  dataset: cifar10  # or nyuv2, pascal_context
+  rounds: 30
+  seed: 42
+
+setup:
+  n_neighbors: 3  # Number of neighbors for soft clustering
+  similarity_method: gradient  # gradient, crossloss, parameter
+  aggregation_method: fedavg  # fedavg, hca, weighted
+  learning_rate: 0.01  # CIFAR-10: 0.01, NYU/Pascal: 0.001
+
+training:
+  local_epochs: 3
+  batch_size: 4
+  learning_rate: 0.001
+```
+
+## Project Structure
+
+```
+asfdfmtl/
+├── configs/
+│   └── decentralized/
+│       ├── cifar10/          # CIFAR-10 experiment configs (7 files)
+│       ├── nyuv2/            # NYU-V2 experiment configs (8 files)
+│       └── pascal/           # Pascal Context configs (5 files)
+├── src/
+│   ├── decentralized/        # Decentralized FL implementation
+│   │   ├── run_decentralized.py           # CIFAR-10 runner
+│   │   ├── run_multitask_decentralized.py # NYU-V2/Pascal runner
+│   │   ├── decentralized_client.py        # Single-task client
+│   │   ├── multitask_client.py            # Multi-task client
+│   │   ├── task_similarity.py             # Similarity metrics
+│   │   └── ...
+│   ├── models/              # Neural network models
+│   │   ├── single_label_classification_model.py  # ResNet-18 for CIFAR-10
+│   │   └── multitask_dense_prediction_model.py   # ResNet-50 multi-task
+│   ├── data_handling/       # Dataset loaders
+│   │   ├── data_manager.py  # CIFAR-10 data manager
+│   │   ├── nyuv2.py         # NYU Depth V2 loader
+│   │   └── pascal_context.py # Pascal Context loader
+│   ├── client_handling/     # Client utilities
+│   └── visualization/       # Plotting utilities
+├── results/                 # Experiment results (auto-generated)
+├── figures/                 # Visualization outputs
+├── environment.yml          # Conda environment specification
+└── README.md
+```
+
+## Results and Outputs
+
+Running an experiment will create the following structure in `results/`:
+
+```
+results/
+└── [dataset]_[experiment]/
+    ├── [experiment_name]/
+    │   ├── metrics/
+    │   │   ├── client_0_metrics.json
+    │   │   ├── client_1_metrics.json
+    │   │   └── ...
+    │   ├── similarity_matrices/
+    │   │   ├── round_1_similarity.npy
+    │   │   └── ...
+    │   └── config.yml  # Copy of experiment config
+```
+
+### Metrics Tracked
+
+For each client and round, the following metrics are logged:
+
+**CIFAR-10**:
+- Training/validation loss
+- Precision, recall, F1-score
+- Per-class accuracy
+
+**NYU Depth V2**:
+- Depth: Mean Absolute Error (MAE)
+- Segmentation: Cross-entropy loss, mIoU
+- Normal: Cosine similarity loss
+
+**Pascal Context**:
+- Segmentation: Cross-entropy loss, mIoU
+- Human Parts: Cross-entropy loss
+- Edge: Binary cross-entropy
+
+## Reproducibility
+
+To ensure reproducibility:
+
+1. **Fixed seeds**: All experiments use `seed: 42` in configs
+2. **Deterministic operations**: PyTorch deterministic mode enabled
+3. **Fixed learning rates**: Configurable via YAML files
+4. **Version control**: All dependencies pinned in `environment.yml`
+
+Note: Perfect reproducibility across different hardware is not guaranteed due to GPU non-determinism. See [PyTorch Randomness Documentation](https://pytorch.org/docs/stable/notes/randomness.html) for details.
+
+## Hardware Requirements
+
+- **GPU**: NVIDIA GPU with CUDA support (tested on RTX 3080/3090)
+- **VRAM**: Minimum 8GB (16GB+ recommended for multi-task experiments)
+- **RAM**: 16GB+ system memory
+- **Storage**: ~50GB for datasets and checkpoints
+
+### Typical Training Times (RTX 3080)
+
+- CIFAR-10 (30 rounds, 3 epochs/round): ~2-3 hours
+- NYU Depth V2 (50 rounds, 5 epochs/round): ~8-12 hours
+- Pascal Context (50 rounds, 5 epochs/round): ~10-15 hours
+
+## Advanced Features
+
+### Learning Rate Scheduling
+
+All multi-task experiments support learning rate scheduling:
+
+```yaml
+training:
+  lr_scheduler:
+    enabled: true
+    type: cosine  # cosine, step, exponential
+    min_lr: 0.0001
+    warmup_rounds: 3
+```
+
+### Early Stopping
+
+Prevent overfitting with early stopping:
+
+```yaml
+training:
+  early_stopping:
+    enabled: true
+    patience: 8
+    min_delta: 0.003
+    mode: min  # min for loss, max for accuracy
+```
+
+### Gradient Clipping
+
+Stabilize training with gradient clipping:
+
+```yaml
+training:
+  gradient_clip_norm: 1.0  # Max gradient norm
+```
